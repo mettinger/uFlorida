@@ -14,7 +14,7 @@ def orderParameterGet(phiVector):
 
 
 # %%
-df = pd.read_csv("c:\\Users\\the_m\\github\\python\\eeg\\julia\\kuramoto_Out_01-31-11-14.csv")
+df = pd.read_csv("c:\\Users\\the_m\\github\\uFlorida\\data\\kuramoto_Out_01-31-11-14.csv")
 
 # %%
 time = df.values[:,0]
@@ -41,6 +41,7 @@ temp = thetaDot[0,:]
 # %%
 index = -5
 sns.kdeplot(thetaDot[index,:])
+
 # %%
 from matplotlib import animation
 

@@ -101,7 +101,7 @@ end
 const kernelSwitch = 0
 if kernelSwitch == 0
     const nOsc = 1024 # should be perfect square
-    const K = 4
+    const K = 2
     const kernelMatrix = (K/nOsc) * ones((nOsc, nOsc))
 elseif kernelSwitch == 1
     const nOsc = 1024 # should be perfect square
@@ -115,7 +115,7 @@ elseif kernelSwitch == 2
     const kernelMatrix = (K/nOsc) * kernelMatrixGet(distanceMatrix)
 end
 
-const distributionSwitch = 1
+const distributionSwitch = 2
 const upperTimeBound = 100
 
 const saveFlag = true
@@ -159,7 +159,8 @@ elseif distributionSwitch == 3
 end
 
 const W = rand(probabilityDistribution, nOsc) 
-display(StatsPlots.density(vec(W)))
+#display(StatsPlots.density(vec(W)))
+display(StatsPlots.histogram(vec(W)))
 
 ##
 println("Number of oscillators: " * string(nOsc))
@@ -170,11 +171,6 @@ println("Solving...")
 prob = ODEProblem(kuramoto2d!, theta0, (0, upperTimeBound), [kernelMatrix, W]);
 sol = solve(prob, method = method, reltol = 1e-8, abstol = 1e-8, saveat = saveat, progress = true, progress_steps = 10, jac=jac)
 print(sol.retcode)
-
-if saveFlag
-    df = DataFrame(sol)
-    CSV.write("kuramoto_Out_" * Dates.format(now(),"mm-dd-HH-MM") * ".csv" , df)
-end
 
 ##
 if plotFlag
@@ -188,5 +184,9 @@ if plotFlag
     #display(PlotlyJS.plot(PlotlyJS.scatter(x=cos.(odePhi[1000,:]), y=sin.(odePhi[1000,:]), mode="markers")))
     #display(PlotlyJS.plot(PlotlyJS.heatmap(z=kernelMatrix)))
     #display(PlotlyJS.plot(PlotlyJS.scatter(x=cos.(theta0), y=sin.(theta0), mode="markers")))
-    
+end
+
+if saveFlag
+    df = DataFrame(sol)
+    CSV.write("../data/kuramoto_Out_" * Dates.format(now(),"mm-dd-HH-MM") * ".csv" , df)
 end

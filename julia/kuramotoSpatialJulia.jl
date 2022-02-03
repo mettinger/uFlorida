@@ -14,7 +14,7 @@ using DataFrames
 using CSV
 using Dates
 using PlotlyJS
-using StatsPlots
+#using StatsPlots
 
 ##
 function orderParameterGet(phaseVector)
@@ -160,7 +160,12 @@ end
 
 const W = rand(probabilityDistribution, nOsc) 
 #display(StatsPlots.density(vec(W)))
-display(StatsPlots.histogram(vec(W)))
+nowString = Dates.format(now(),"mm-dd-HH-MM")
+
+layout = Layout(title="Natural frequencies" * "<br>nOsc: " * string(nOsc) * "<br>K: " * string(K) * "<br>" * distributionTitle)
+p = PlotlyJS.plot(PlotlyJS.histogram(x=W), layout);
+display(p)
+PlotlyJS.savefig(p,  "../data/plots/natFreq_" * nowString * ".jpeg")
 
 ##
 println("Number of oscillators: " * string(nOsc))
@@ -178,8 +183,10 @@ if plotFlag
     u = sol.u
     odePhi = transpose(reduce(hcat, u))
     orderParameterAbs = [orderParameterGet(odePhi[i,:]) for i in 1:length(t)]
-    layout = Layout(title="nOsc: " * string(nOsc) * "<br>K: " * string(K) * "<br>" * distributionTitle)
-    display(PlotlyJS.plot(t, orderParameterAbs, layout))
+    layout = Layout(title="Order Parameter" * "<br>nOsc: " * string(nOsc) * "<br>K: " * string(K) * "<br>" * distributionTitle)
+    p = PlotlyJS.plot(t, orderParameterAbs, layout);
+    display(p)
+    PlotlyJS.savefig(p,  "../data/plots/orderParam_" * nowString * ".jpeg")
     
     #display(PlotlyJS.plot(PlotlyJS.scatter(x=cos.(odePhi[1000,:]), y=sin.(odePhi[1000,:]), mode="markers")))
     #display(PlotlyJS.plot(PlotlyJS.heatmap(z=kernelMatrix)))
@@ -188,5 +195,5 @@ end
 
 if saveFlag
     df = DataFrame(sol)
-    CSV.write("../data/kuramoto_Out_" * Dates.format(now(),"mm-dd-HH-MM") * ".csv" , df)
+    CSV.write("../data/kuramoto_out_" * nowString * ".csv" , df)
 end

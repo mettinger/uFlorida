@@ -14,7 +14,8 @@ def orderParameterGet(phiVector):
 
 
 # %%
-df = pd.read_csv("c:\\Users\\the_m\\github\\uFlorida\\data\\kuramoto_Out_01-31-11-14.csv")
+odeSolutionCSV = "c:\\Users\\the_m\\github\\uFlorida\\data\\kuramoto_Out_01-31-11-14.csv"
+df = pd.read_csv(odeSolutionCSV)
 
 # %%
 time = df.values[:,0]
@@ -22,7 +23,7 @@ odePhi = df.values[:,1:]
 thetaDot = np.diff(odePhi, axis=0) * 10
 
 # %%
-index = -1
+index = 979
 colorLower = np.min(thetaDot)
 colorUpper = np.max(thetaDot)
 
@@ -34,9 +35,6 @@ px.scatter(x = np.cos(odePhi[index,:]),
 # %%
 orderParameter = [orderParameterGet(odePhi[i,:])for i in range(len(time))]
 plt.plot(time, orderParameter)
-
-# %%
-temp = thetaDot[0,:]
 
 # %%
 index = -5

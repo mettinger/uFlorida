@@ -109,7 +109,7 @@ function kuramotoPMAP(parameterList)
 
     kernelMatrix = (K/nOsc) * ones((nOsc, nOsc))
 
-    descriptionString = string(nOsc) * "_" * string(K) * "_" * description
+    descriptionString = "nOsc_" * string(nOsc) * "_K_" * string(K) * "_" * description
     println("Solving: " * descriptionString)
 
     prob = ODEProblem(kuramoto2d!, theta0, (0, upperTimeBound), [kernelMatrix, W]);
@@ -122,6 +122,8 @@ function kuramotoPMAP(parameterList)
     catch e
     end
     CSV.write("../data/" * directory * "/kuramoto_" * descriptionString * ".csv" , df, writeheader=false)
+
+    println("Finished!")
 end
 
 function pmapListGet(directory)

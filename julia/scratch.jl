@@ -73,3 +73,7 @@ addprocs(6)
 pmapList = pmapListGet()
 print("workers: " * string(nworkers()))
 pmap(kuramotoPMAP, pmapList)
+
+##
+
+collect(1.:.1:2.)

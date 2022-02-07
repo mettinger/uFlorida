@@ -5,8 +5,8 @@ import plotly.express as px
 import numpy as np
 import seaborn as sns
 
-import plotly.io as pio
-pio.renderers.default = 'plotly_mimetype+notebook' 
+#import plotly.io as pio
+#pio.renderers.default = 'plotly_mimetype+notebook' 
 
 #%%
 def orderParameterGet(phiVector):
@@ -14,13 +14,18 @@ def orderParameterGet(phiVector):
 
 
 # %%
-odeSolutionCSV = "c:\\Users\\the_m\\github\\uFlorida\\data\\kuramoto_Out_01-31-11-14.csv"
+odeSolutionCSV = "c:\\Users\\the_m\\github\\uFlorida\\data\\Exponential_2.5\\kuramoto_nOsc_1024_K_1.0_Exponential_2.5.csv"
 df = pd.read_csv(odeSolutionCSV)
 
-# %%
 time = df.values[:,0]
 odePhi = df.values[:,1:]
 thetaDot = np.diff(odePhi, axis=0) * 10
+
+
+# %%
+orderParameter = [orderParameterGet(odePhi[i,:])for i in range(len(time))]
+plt.plot(time, orderParameter)
+
 
 # %%
 index = 979
@@ -31,11 +36,6 @@ px.scatter(x = np.cos(odePhi[index,:]),
            y = np.sin(odePhi[index,:]), 
            color=thetaDot[index,:],
            range_color=(colorLower, colorUpper))
-
-# %%
-orderParameter = [orderParameterGet(odePhi[i,:])for i in range(len(time))]
-plt.plot(time, orderParameter)
-
 # %%
 index = -5
 sns.kdeplot(thetaDot[index,:])

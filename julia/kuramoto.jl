@@ -126,16 +126,30 @@ function kuramotoPMAP(parameterList)
     println("Finished!")
 end
 
-function pmapListGet(directory)
+function pmapListGet(distributionSwitch)
     
     Random.seed!(1234)
 
     nOsc = 1024
 
-    kList = [1,2,4]
+    kList = collect(1.:.2:2.)
     theta0List = [2 * pi * rand(Float64, nOsc)]
-    wList = [rand(Exponential(2.5), nOsc)]
-    descriptionList = ["Exponential(2.5)"]
+
+    if distributionSwitch == 0
+        probabilityDistribution = MixtureModel([Exponential(2.5), Normal(5., .5), Normal(7., .5)], [.9,.05,.05])
+        directory = "Mixed"
+        description = "Mixed"
+    elseif distributionSwitch == 1
+        probabilityDistribution = Exponential(2.5)
+        directory = "Exponential_2.5"
+        description = "Exponential_2.5"
+    else
+        println("Distribution error!")
+        return
+    end
+
+    wList = [rand(probabilityDistribution, nOsc)]
+    descriptionList = [description]
     directoryList = [directory]
 
     thisProduct = collect(Base.product(kList, theta0List, wList, descriptionList, directoryList))

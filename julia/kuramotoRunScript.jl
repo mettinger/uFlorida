@@ -7,8 +7,9 @@ const nProcs = 6
 addprocs(nProcs)
 @everywhere include("kuramoto.jl")
 
-nowString = Dates.format(now(),"mm-dd-HH-MM")
-pmapList = pmapListGet(nowString)
+#nowString = Dates.format(now(),"mm-dd-HH-MM")
+
+pmapList = pmapListGet(0)
 
 println("Workers: " * string(nProcs))
 println("Trials: " * string(length(pmapList)))

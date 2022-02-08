@@ -12,9 +12,10 @@ import seaborn as sns
 def orderParameterGet(phiVector):
     return np.abs(sum(np.exp(phiVector * (0+1j))))
 
-
 # %%
-odeSolutionCSV = "c:\\Users\\the_m\\github\\uFlorida\\data\\Exponential_2.5\\kuramoto_nOsc_1024_K_1.0_Exponential_2.5.csv"
+#odeSolutionCSV = "c:\\Users\\the_m\\github\\uFlorida\\data\\Exponential_2.5\\kuramoto_nOsc_1024_K_1.0_Exponential_2.5.csv"
+odeSolutionCSV = "c:\\Users\\the_m\\github\\uFlorida\\data\\Mixed\\kuramoto_nOsc_1024_K_3.0_Mixed.csv"
+
 df = pd.read_csv(odeSolutionCSV)
 
 time = df.values[:,0]

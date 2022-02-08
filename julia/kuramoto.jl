@@ -1,22 +1,11 @@
 ##
-
-#=
-using Logging: global_logger
-using TerminalLoggers: TerminalLogger
-global_logger(TerminalLogger())
-=#
-
 using DifferentialEquations
-#using LSODA
 using Random
 using Distributions
-#using SpecialPolynomials
 using LinearAlgebra
-#using BenchmarkTools
 using DataFrames
 using CSV
 using Dates
-#using PlotlyJS
 using Distributed
 
 ##
@@ -87,32 +76,32 @@ end
 
 function kuramoto2d!(du, u, p, t)
 
-    kernelMatrix, W = p
+    coupleMatrix, W = p
 
     nOsc = length(W)
     for i in 1:nOsc
         du[i] = W[i]
         for j in 1:nOsc
-            du[i] = du[i] + (kernelMatrix[i,j]) * sin(u[j] - u[i])
+            du[i] = du[i] + (coupleMatrix[i,j]) * sin(u[j] - u[i])
         end
     end
 end
 
 function kuramotoPMAP(parameterList)
 
-    K, theta0, W, description, directory = parameterList
+    K, theta0, W, description, directory, kernelMatrix = parameterList
 
     nOsc = length(theta0)
     upperTimeBound = 100
     saveat = upperTimeBound/1000.
     method = AutoTsit5(Rosenbrock23()) 
 
-    kernelMatrix = (K/nOsc) * ones((nOsc, nOsc))
+    coupleMatrix = (K/nOsc) * kernelMatrix
 
-    descriptionString = "nOsc_" * string(nOsc) * "_K_" * string(K) * "_" * description
+    descriptionString = "K_" * string(K) * "_" * description
     println("Solving: " * descriptionString)
 
-    prob = ODEProblem(kuramoto2d!, theta0, (0, upperTimeBound), [kernelMatrix, W]);
+    prob = ODEProblem(kuramoto2d!, theta0, (0, upperTimeBound), [coupleMatrix, W]);
     sol = solve(prob, method = method, reltol = 1e-8, abstol = 1e-8, saveat = saveat);
 
     # WRITE TO FILE
@@ -126,33 +115,23 @@ function kuramotoPMAP(parameterList)
     println("Finished!")
 end
 
-function pmapListGet(distributionSwitch)
+#=
+function pmapListGet(kList, distanceMatrixList, distributionInfo)
     
     Random.seed!(1234)
 
     nOsc = 1024
-
-    kList = collect(1.:.2:2.)
     theta0List = [2 * pi * rand(Float64, nOsc)]
-
-    if distributionSwitch == 0
-        probabilityDistribution = MixtureModel([Exponential(2.5), Normal(5., .5), Normal(7., .5)], [.9,.05,.05])
-        directory = "Mixed"
-        description = "Mixed"
-    elseif distributionSwitch == 1
-        probabilityDistribution = Exponential(2.5)
-        directory = "Exponential_2.5"
-        description = "Exponential_2.5"
-    else
-        println("Distribution error!")
-        return
-    end
+I
+    probabilityDistribution, description, directory = distributionInfo
 
     wList = [rand(probabilityDistribution, nOsc)]
     descriptionList = [description]
     directoryList = [directory]
 
-    thisProduct = collect(Base.product(kList, theta0List, wList, descriptionList, directoryList))
+    #thisProduct = collect(Base.product(kList, theta0List, wList, descriptionList, directoryList))
+    #return reshape(thisProduct, length(thisProduct))
 
-    return reshape(thisProduct, length(thisProduct))
+    return Base.product(kList, theta0List, wList, descriptionList, directoryList, distanceMatrixList)
 end
+=#

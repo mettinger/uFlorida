@@ -11,9 +11,6 @@ import pandas as pd
 from sklearn.metrics.pairwise import haversine_distances # great circle distances in radians
 import dtale
 
-import plotly.io as pio
-pio.renderers.default = 'plotly_mimetype+notebook' 
-
 # http://extremelearning.com.au/how-to-evenly-distribute-points-on-a-sphere-more-effectively-than-the-canonical-fibonacci-lattice/
 
 
@@ -51,7 +48,7 @@ def distanceMatrixGet(pointArray, greatCircleFlag):
 # In[3]:
 
 
-nOsc = 1000
+nOsc = 1024
 greatCircleFlag = True
 
 xyz, latLong = pointsOnSphereGet(nOsc)
@@ -68,8 +65,8 @@ fig.show()
 # In[5]:
 
 
-np.savetxt("./julia/distanceMatrix.csv", distanceMatrix, delimiter=",")
-np.save("./julia/pointsOnSphereXYZ.npy", xyz)
+np.savetxt("../../data/sphereKuramoto/greatCircleDistance.csv", distanceMatrix, delimiter=",")
+np.save("../../data/sphereKuramoto/pointsOnSphereXYZ.npy", xyz)
 
 
 # In[6]:

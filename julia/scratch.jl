@@ -70,10 +70,17 @@ addprocs(6)
 
 
 ##
-pmapList = pmapListGet()
-print("workers: " * string(nworkers()))
-pmap(kuramotoPMAP, pmapList)
+using Distributed
+z = pmap(x -> x[1] + x[2], Base.product([1,2], [3, 4]))
 
 ##
 
 collect(1.:.1:2.)
+
+##
+
+sizeof(collect(Base.product(["a","b"], [3, 4])))
+
+##
+f = x -> x * x
+f(3)

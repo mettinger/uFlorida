@@ -1,87 +1,60 @@
+##
 using Distributed
 using Dates
-
-##
 
 const nProcs = 6
 addprocs(nProcs)
 @everywhere include("kuramoto.jl")
 
-#nowString = Dates.format(now(),"mm-dd-HH-MM")
+const nOsc = 1024
 
-pmapList = pmapListGet(0)
+##
+# PARAMETERS TO SET
 
+const kList = collect(1.:5.)
+const kernelSwitch = 2
+const distributionSwitch = 2
+# PARAMETERS END
+
+if distributionSwitch == 0
+    probabilityDistribution = MixtureModel([Exponential(2.5), Normal(5., .5), Normal(7., .5)], [.9,.05,.05])
+    directory = "Mixed"
+    description = "Mixed"
+elseif distributionSwitch == 1
+    probabilityDistribution = Exponential(2.5)
+    directory = "Exponential_2.5"
+    description = "Exponential_2.5"
+elseif distributionSwitch == 2
+    probabilityDistribution = Cauchy(0,1)
+    directory = "sphere/Cauchy_0_1"
+    description = "Cauchy_0_1"
+else
+    println("Distribution error!")
+    return
+end
+
+if kernelSwitch == 0
+    const kernelMatrix = ones((nOsc, nOsc))
+elseif kernelSwitch == 1
+    const distanceMatrix = distanceMatrixGet(nOsc)
+    const kernelMatrix = kernelMatrixGet(distanceMatrix)
+elseif kernelSwitch == 2
+    const distanceMatrix = Matrix{Float64}(DataFrame(CSV.File("../data/sphere/greatCircleDistance.csv", header=false)))
+    const kernelMatrix = kernelMatrixGet(distanceMatrix)
+end
+
+theta0 = 2 * pi * rand(Float64, nOsc)
+const W = rand(probabilityDistribution, nOsc) 
+##
+
+#pmapList = pmapListGet(kList, distributionList, distanceMatrixList)
+const pmapList = Base.product(kList, [theta0], [W], [description], [directory], [kernelMatrix])
 println("Workers: " * string(nProcs))
 println("Trials: " * string(length(pmapList)))
 pmap(kuramotoPMAP, pmapList)
 
 
-# PARAMETERS TO SET
-##
-
 #=
-const kernelSwitch = 0
-if kernelSwitch == 0
-    const nOsc = 1024 # should be perfect square
-    const K = 2
-    const kernelMatrix = (K/nOsc) * ones((nOsc, nOsc))
-elseif kernelSwitch == 1
-    const nOsc = 1024 # should be perfect square
-    const K = 4 
-    const distanceMatrix = distanceMatrixGet(nOsc)
-    const kernelMatrix = (K/nOsc) * kernelMatrixGet(distanceMatrix)
-elseif kernelSwitch == 2
-    const distanceMatrix = Matrix{Float64}(DataFrame(CSV.File("distanceMatrix.csv", header=false)))
-    const nOsc = size(distanceMatrix)[1]
-    const K = K_nOsc_Ratio * nOsc
-    const kernelMatrix = (K/nOsc) * kernelMatrixGet(distanceMatrix)
-end
-
-const distributionSwitch = 3
-const upperTimeBound = 100
-
-const saveFlag = true
-const plotFlag = true
-const tsit5Flag = false 
-const jacFlag = false
-saveat = upperTimeBound/1000.
-
-# PARAMETERS END 
-
-##
-if tsit5Flag
-    const method = Tsit5()
-else
-    const method = AutoTsit5(Rosenbrock23()) 
-    #const method = lsoda()
-end
-
-if jacFlag
-    const jac = jac!
-else
-    const jac = nothing
-end
-
-# theta0, W are initial phase, intrinsic freq
-Random.seed!(1234)
-const theta0 = 2 * pi * rand(Float64, nOsc);
-
-if distributionSwitch == 0
-    const probabilityDistribution = Cauchy(0,1)
-    const distributionTitle = string(probabilityDistribution)
-elseif distributionSwitch == 1
-    const probabilityDistribution = MixtureModel([Normal(-2.0, 1.0), Normal(2.0, 1.0)])
-    const distributionTitle = string(probabilityDistribution.components) * "<br>" * string(probabilityDistribution.prior)
-elseif distributionSwitch == 2
-    const probabilityDistribution = Exponential(2.5)
-    const distributionTitle = string(probabilityDistribution)
-elseif distributionSwitch == 3
-    const probabilityDistribution = MixtureModel([Exponential(2.5), Normal(5., .5), Normal(7., .5)], [.9,.05,.05])
-    const distributionTitle = string(probabilityDistribution.components) * "<br>" * string(probabilityDistribution.prior)
-end
-
-const W = rand(probabilityDistribution, nOsc) 
-
 nowString = Dates.format(now(),"mm-dd-HH-MM")
 
 layout = Layout(title="Natural frequencies" * "<br>nOsc: " * string(nOsc) * "<br>K: " * string(K) * "<br>" * distributionTitle)

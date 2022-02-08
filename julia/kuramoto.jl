@@ -7,6 +7,7 @@ using DataFrames
 using CSV
 using Dates
 using Distributed
+using SpecialPolynomials
 
 ##
 function orderParameterGet(phaseVector)

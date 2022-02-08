@@ -45,9 +45,8 @@ end
 
 theta0 = 2 * pi * rand(Float64, nOsc)
 const W = rand(probabilityDistribution, nOsc) 
-##
 
-#pmapList = pmapListGet(kList, distributionList, distanceMatrixList)
+##
 const pmapList = Base.product(kList, [theta0], [W], [description], [directory], [kernelMatrix])
 println("Workers: " * string(nProcs))
 println("Trials: " * string(length(pmapList)))

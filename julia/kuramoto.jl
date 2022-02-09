@@ -1,4 +1,8 @@
 ##
+using Logging: global_logger
+using TerminalLoggers: TerminalLogger
+global_logger(TerminalLogger())
+
 using DifferentialEquations
 using Random
 using Distributions
@@ -103,7 +107,7 @@ function kuramotoPMAP(parameterList)
     println("Solving: " * descriptionString)
 
     prob = ODEProblem(kuramoto2d!, theta0, (0, upperTimeBound), [coupleMatrix, W]);
-    sol = solve(prob, method = method, reltol = 1e-8, abstol = 1e-8, saveat = saveat);
+    sol = solve(prob, method = method, reltol = 1e-8, abstol = 1e-8, saveat = saveat, progress=true, progress_steps=50);
 
     # WRITE TO FILE
     df = DataFrame(sol)
@@ -115,24 +119,3 @@ function kuramotoPMAP(parameterList)
 
     println("Finished!")
 end
-
-#=
-function pmapListGet(kList, distanceMatrixList, distributionInfo)
-    
-    Random.seed!(1234)
-
-    nOsc = 1024
-    theta0List = [2 * pi * rand(Float64, nOsc)]
-I
-    probabilityDistribution, description, directory = distributionInfo
-
-    wList = [rand(probabilityDistribution, nOsc)]
-    descriptionList = [description]
-    directoryList = [directory]
-
-    #thisProduct = collect(Base.product(kList, theta0List, wList, descriptionList, directoryList))
-    #return reshape(thisProduct, length(thisProduct))
-
-    return Base.product(kList, theta0List, wList, descriptionList, directoryList, distanceMatrixList)
-end
-=#

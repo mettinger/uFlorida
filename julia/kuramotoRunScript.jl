@@ -28,7 +28,7 @@ elseif distributionSwitch == 1
     description = "Exponential_2.5"
 elseif distributionSwitch == 2
     probabilityDistribution = Cauchy(0,1)
-    directory = "sphere/temp/Cauchy_0_1"
+    directory = "sphere/Cauchy_0_1"
     description = "Cauchy_0_1"
 else
     println("Distribution error!")

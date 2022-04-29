@@ -1,4 +1,8 @@
 ##
+
+typeof(1im)
+
+##
 using PlotlyJS
 
 display(PlotlyJS.plot(1:10,1:10))

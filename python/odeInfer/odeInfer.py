@@ -44,9 +44,7 @@ def train(dataloader, model, loss_fn, optimizer):
         loss.backward()
         optimizer.step()
 
-        if batch % 100 == 0:
-            loss, current = loss.item(), batch * len(X)
-            print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
+    return loss.item()
 
 def cycleFuturePoint(x0, y0, t):
 
@@ -117,6 +115,7 @@ train_dataloader = DataLoader(training_data, batch_size=batch_size)
 #%%   FIT THE MODEL TO THE DATA
 
 epochs = 1000
+epochReportPeriod = 200
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -125,8 +124,11 @@ loss_fn = nn.MSELoss(reduction='mean')
 optimizer = torch.optim.SGD(model.parameters(), lr=1e-3)
 
 for t in range(epochs):
-    print(f"Epoch {t+1}\n-------------------------------")
-    train(train_dataloader, model, loss_fn, optimizer)
+    loss = train(train_dataloader, model, loss_fn, optimizer)
+    if t % epochReportPeriod == 0:
+        print("loss: " + str(loss))
+        print(f"Epoch {t}\n-------------------------------")
+
 print("Done!")
 
 predictions = model(tensor_x.to(device)).cpu().detach().numpy()
@@ -149,7 +151,9 @@ vv = gridPredictions[:,1]
 
 fig = ff.create_quiver(xx, yy, uu, vv) 
 fig.update_layout(title="Estimated Phase Portrait")
+fig.show()
 
+fig.write_image("estimatedPortrait.png")
 
 
 #%%

@@ -1,7 +1,6 @@
 #%%  IMPORTS
 
 import numpy as np
-import torch
 import matplotlib.pyplot as plt
 import plotly.figure_factory as ff
 
@@ -71,6 +70,7 @@ def flowGet(x0, y0, t, futureFunction, plotFlag=False):
     if plotFlag:
         plt.figure()
         plt.plot(flow[:,0], flow[:,1], '.')
+        plt.pause(.001)
 
     return flow
 
@@ -95,6 +95,7 @@ def limitCycleData(initialPoints, finalTime, timeSteps, plotFlag=True):
         plt.plot(xlag[:,0], xlag[:,1], '.')
         #plt.gca().set_aspect('equal')
         plt.title('Initial Data in Phase Space')
+        plt.pause(.001)
     
     return xlag, xdot
 
@@ -154,7 +155,11 @@ fig.update_layout(title="Estimated Phase Portrait")
 fig.show()
 
 fig.write_image("estimatedPortrait.png")
+torch.save(model.state_dict(), "limitCycle.pt")
 
+model.eval() 
+dummy_input = torch.randn(1, 2, requires_grad=True).to("cuda")
+torch.onnx.export(model, dummy_input, "limitCycle.onnx", verbose=True)
 
 #%%
 '''

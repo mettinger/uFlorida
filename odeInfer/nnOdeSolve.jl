@@ -24,7 +24,7 @@ function limitCycle!(du, u, p, t)
 end
 
 y0 = 0.0
-x0 = 2.0
+x0 = .5
 
 u0 = [x0, y0]
 tspan = (0., 100.)

@@ -9,6 +9,12 @@ from torch import nn
 from torch.utils.data import TensorDataset, DataLoader
 from torchvision.transforms import ToTensor
 
+
+import julia
+julia.install()
+from julia import DynamicalSystems
+from julia import Main
+
 #%%  NEURAL NETWORK CLASS AND FUNCTIONS
 
 class NeuralNetwork(nn.Module):
@@ -106,12 +112,23 @@ timeSteps = 1000
 batch_size = 64
 
 initialPoints = [(0., 2.), (.5, 0.), (0., -2.), (-.5, 0.)]
-xlag, xdot = limitCycleData(initialPoints, finalTime, timeSteps)
+x, xdot = limitCycleData(initialPoints, finalTime, timeSteps)
 
-tensor_x = torch.Tensor(xlag)
+tensor_x = torch.Tensor(x)
 tensor_y = torch.Tensor(xdot)
 training_data = TensorDataset(tensor_x,tensor_y)
 train_dataloader = DataLoader(training_data, batch_size=batch_size)
+
+#%% USE JULIA TO FIND EMBEDDING
+
+Main.s = x[:,0]
+Main.eval('theiler = DynamicalSystems.estimate_delay(s, "mi_min")')
+Main.eval("Tmax = 100")
+Y, t_vals, ts_vals, Ls, eps = Main.eval("DynamicalSystems.pecuzal_embedding(s; τs = 0:Tmax , w = theiler, econ = true)")
+
+#%%
+YY = np.array(Y.data)
+plt.plot(YY[:,0], YY[:,1])
 
 #%%   FIT THE MODEL TO THE DATA
 
@@ -156,10 +173,6 @@ fig.show()
 
 fig.write_image("estimatedPortrait.png")
 torch.save(model.state_dict(), "limitCycle.pt")
-
-model.eval() 
-dummy_input = torch.randn(1, 2, requires_grad=True).to("cuda")
-torch.onnx.export(model, dummy_input, "limitCycle.onnx", verbose=True)
 
 #%%
 '''

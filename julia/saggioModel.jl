@@ -1,3 +1,4 @@
+##
 using DifferentialEquations, Plots, LinearAlgebra, Polynomials
 plotlyjs()
 
@@ -31,7 +32,7 @@ function parametersMake(z0)
 end
 
 
-function saggio!(du, u, p, t)
+function saggioUpdate!(du, u, p, t)
 
     e, f, R, c, dstar, xs = p
     muTwo, minusMuOne, nu = R * ((e * cos(u[3])) + (f * sin(u[3])))
@@ -41,6 +42,14 @@ function saggio!(du, u, p, t)
     du[3] = -c * (sqrt( (u[1] - xs)^2 + u[2]^2) - dstar)
 end
 
+function saggioSolve(u0, tspan, p)
+    prob = ODEProblem(saggioUpdate!, u0, tspan, p)
+    sol = solve(prob)
+    sol
+end
+
+
+##
 y0 = 0.0
 z0 = 0.0
 p = parametersMake(z0)
@@ -49,18 +58,10 @@ x0 = p[6]
 u0 = [x0, y0, z0]
 tspan = (0., 6000.)
 
-prob = ODEProblem(saggio!, u0, tspan, p)
-sol = solve(prob)
+
+sol = saggioSolve(u0, tspan, p)
 
 xt = plot(sol, vars=(1))
 zt = plot(sol, vars=(3))
 plot(xt,zt, layout = (2,1))
 
-#=
-xyzt = plot(sol, plotdensity=10000,lw=1.5, vars=(1))
-xy = plot(sol, plotdensity=10000, vars=(1,2))
-xz = plot(sol, plotdensity=10000, vars=(1,3))
-yz = plot(sol, plotdensity=10000, vars=(2,3))
-xyz = plot(sol, plotdensity=10000, vars=(1,2,3))
-plot(plot(xyzt,xyz),plot(xy, xz, yz, layout=(1,3),w=1), layout=(2,1))
-=#

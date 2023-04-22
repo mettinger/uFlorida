@@ -3,18 +3,56 @@ from torch import nn
 from torch.nn import functional as F
 from collections import OrderedDict
 
-class NeuralNetwork(nn.Module):
-    
-    def __init__(self, inputSize, hiddenLayerSizes):
-        super().__init__()
-        self.model = nn.Sequential(listToOrderedDict(inputSize, hiddenLayerSizes))
+class residualBlockConcat(nn.Module):
+    def __init__(self, inputSize, outputSize):
         
+        super(residualBlockConcat, self).__init__()
+        self.linear = nn.Linear(inputSize,outputSize)
+        self.bn = nn.BatchNorm1d(inputSize)
+
     def forward(self, x):
-        return self.model(x)
+        residual = x
+        out = self.linear(self.bn(x))
+        out = torch.concat([F.relu(out), residual], dim=1)
+        return out
     
+class residualBlockAdd(nn.Module):
+    def __init__(self, inputSize):
+        
+        super(residualBlockAdd, self).__init__()
+        self.linear = nn.Linear(inputSize, inputSize)
+        self.bn = nn.BatchNorm1d(inputSize)
+
+    def forward(self, x):
+        residual = x
+        out = self.linear(self.bn(x))
+        out = out + residual
+        out = F.relu(out)
+        return out
+
 # GIVEN A LIST OF LAYER SIZES MAKE AN ORDERED DICTIONARY FOR INITIALIZING A PYTORCH NET
 
-def listToOrderedDict(inputSize, sizeList):
+def residualAddDict(inputSize, residSize, nLayer):
+    tupleList = []
+    tupleList.append(('in', nn.Linear(inputSize, residSize)))
+    for i in range(nLayer):
+        tupleList.append(('residAdd%s' % str(i), residualBlockAdd(residSize)))
+    return OrderedDict(tupleList + [('out', nn.Linear(residSize,1))])
+
+
+def residualConcatDict(inputSize, sizeList):
+    n = len(sizeList)
+    tupleList = []
+    inSize = inputSize
+    outSize = sizeList[0] + inSize
+    tupleList.append(('in', residualBlockConcat(inSize, outSize)))
+    for i in range(n - 1):
+        inSize = outSize
+        outSize = sizeList[i] + inSize
+        tupleList.append(('residConcat%s' % str(i), residualBlockConcat(inSize, outSize)))
+    return OrderedDict(tupleList + [('out', residualBlockConcat(outSize,1))])
+
+def listToOrderedDict_1(inputSize, sizeList):
     n = len(sizeList)
     tupleList = []
     tupleList.append(('in', nn.Linear(inputSize, sizeList[0])))

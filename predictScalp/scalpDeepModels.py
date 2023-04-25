@@ -3,11 +3,40 @@ from torch import nn
 from torch.nn import functional as F
 from collections import OrderedDict
 
+class timeFreqNet(nn.Module):
+    def __init__(self):
+        
+        totalSize = 11397
+        self.stftSize = 67
+        self.p1 = 512
+
+        super(residualBlockConcat, self).__init__()
+        self.linear1 = nn.Linear(totalSize, totalSize)
+        self.linear2 = nn.Linear(totalSize, totalSize)
+        self.linear3 = nn.Linear(totalSize, self.p1)
+        self.linearLast = nn.Linear(self.p1 + self.stftSize,1)
+        
+    def forward(self, x):
+        l1 = F.relu(self.linear1(x))
+        l2 = F.relu(self.linear2(l1))
+        l3 = F.relu(self.linear3(l2))
+
+        istft = torch.istft(torch.tensor(a), 
+               n_fft = nperseg, 
+               hop_length = 1, 
+               return_complex=True, 
+               normalized=False, 
+               onesided=True, 
+               pad_mode='constant')
+
+        out = F.relu(self.linearLast(torch.concat([l3,istft])))
+        return out
+
 class residualBlockConcat(nn.Module):
-    def __init__(self, inputSize, outputSize):
+    def __init__(self, inputSize, linearOutputSize):
         
         super(residualBlockConcat, self).__init__()
-        self.linear = nn.Linear(inputSize,outputSize)
+        self.linear = nn.Linear(inputSize,linearOutputSize)
         self.bn = nn.BatchNorm1d(inputSize)
 
     def forward(self, x):
@@ -16,6 +45,18 @@ class residualBlockConcat(nn.Module):
         out = torch.concat([F.relu(out), residual], dim=1)
         return out
     
+def residualConcatDict(inputSize, linearSizeList):
+    n = len(linearSizeList)
+    tupleList = []
+    inSize = inputSize
+    outSize = linearSizeList[0]
+    tupleList.append(('in', residualBlockConcat(inSize, outSize)))
+    for i in range(n - 1):
+        inSize = outSize + inSize
+        outSize = linearSizeList[i]
+        tupleList.append(('residConcat%s' % str(i), residualBlockConcat(inSize, outSize)))
+    return OrderedDict(tupleList + [('out', nn.Linear(outSize + inSize,1))])
+
 class residualBlockAdd(nn.Module):
     def __init__(self, inputSize):
         
@@ -40,17 +81,6 @@ def residualAddDict(inputSize, residSize, nLayer):
     return OrderedDict(tupleList + [('out', nn.Linear(residSize,1))])
 
 
-def residualConcatDict(inputSize, sizeList):
-    n = len(sizeList)
-    tupleList = []
-    inSize = inputSize
-    outSize = sizeList[0] + inSize
-    tupleList.append(('in', residualBlockConcat(inSize, outSize)))
-    for i in range(n - 1):
-        inSize = outSize
-        outSize = sizeList[i] + inSize
-        tupleList.append(('residConcat%s' % str(i), residualBlockConcat(inSize, outSize)))
-    return OrderedDict(tupleList + [('out', residualBlockConcat(outSize,1))])
 
 def listToOrderedDict_1(inputSize, sizeList):
     n = len(sizeList)

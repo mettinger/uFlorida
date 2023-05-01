@@ -2,6 +2,7 @@ import torch
 from torch import nn
 from torch.nn import functional as F
 from collections import OrderedDict
+import neptune
 
 class timeFreqNet(nn.Module):
     def __init__(self):
@@ -82,16 +83,17 @@ def residualAddDict(inputSize, residSize, nLayer):
 
 
 
-def listToOrderedDict_1(inputSize, sizeList):
+def listToOrderedDict_1(sizeList):
     n = len(sizeList)
     tupleList = []
-    tupleList.append(('in', nn.Linear(inputSize, sizeList[0])))
-    for i in range(n - 1):
+    #tupleList.append(('in', nn.Linear(inputSize, sizeList[0])))
+    for i in range(n -  1):
         tupleList.append(('bn%s' % str(i), nn.BatchNorm1d(sizeList[i])))
         tupleList.append(('l%s' % str(i), nn.Linear(sizeList[i], sizeList[i+1])))
         tupleList.append(('r%s' % str(i), nn.ReLU()))
         tupleList.append(('d%s' % str(i), nn.Dropout(.5)))
-    return OrderedDict(tupleList[:-2] + [('out', nn.Linear(sizeList[-1],1))])
+    #return OrderedDict(tupleList[:-2])
+    return OrderedDict(tupleList[:-3] + [('out', nn.Linear(sizeList[-1],1))])
 
 def train(dataloader, model, loss_fn, optimizer, device):
     size = len(dataloader.dataset)
@@ -129,3 +131,30 @@ def test(dataloader, model, loss_fn, device):
 
 def count_parameters(model):
     return sum(p.numel() for p in model.parameters() if p.requires_grad)
+
+def modelDownloadNeptune(neptuneProject, api_token, neptuneRunID, modelPath):
+    run = neptune.init_run(
+        project=neptuneProject,
+        api_token=api_token,  
+        capture_hardware_metrics=True,
+        capture_stderr=True,
+        capture_stdout=True,
+        with_id=neptuneRunID
+    )
+
+    try:
+        destinationPathModel = modelPath
+        run["model_best"].download(destinationPathModel)
+        print("model download success...")
+        run.stop()
+    except Exception as error:
+        print("model download failure...")
+        print(error)
+        run.stop()
+
+def neptuneBestRun():
+    project = neptune.init_project(project="jettinger35/predictScalp")
+    df = project.fetch_runs_table().to_pandas()
+    return df[['sys/id','best_test_loss']]
+
+

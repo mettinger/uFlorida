@@ -132,6 +132,16 @@ def test(dataloader, model, loss_fn, device):
 def count_parameters(model):
     return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
+def neptuneBestRun():
+    project = neptune.init_project(project="jettinger35/predictScalp")
+    df = project.fetch_runs_table().to_pandas()
+    return df[['sys/id','best_test_loss']]
+
+'''
+def getModelByID(modelID):
+    model = torch.jit.load(modelPath + 'model_%s.pt' % str(modelID))
+    bestTestLoss = test(validDataLoader, model, loss_fn, device)
+
 def modelDownloadNeptune(neptuneProject, api_token, neptuneRunID, modelPath):
     run = neptune.init_run(
         project=neptuneProject,
@@ -151,10 +161,4 @@ def modelDownloadNeptune(neptuneProject, api_token, neptuneRunID, modelPath):
         print("model download failure...")
         print(error)
         run.stop()
-
-def neptuneBestRun():
-    project = neptune.init_project(project="jettinger35/predictScalp")
-    df = project.fetch_runs_table().to_pandas()
-    return df[['sys/id','best_test_loss']]
-
-
+'''

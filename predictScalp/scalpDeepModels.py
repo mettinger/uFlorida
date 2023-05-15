@@ -135,7 +135,10 @@ def count_parameters(model):
 def neptuneBestRun():
     project = neptune.init_project(project="jettinger35/predictScalp")
     df = project.fetch_runs_table().to_pandas()
-    return df[['sys/id','best_test_loss']]
+    df = df[['sys/id','best_test_loss', 'parameters/modelID']]
+    df.fillna('-1', inplace=True)
+    df['parameters/modelID'] = df['parameters/modelID'].astype('int')
+    return df
 
 '''
 def getModelByID(modelID):

@@ -93,7 +93,8 @@ def listToOrderedDict_1(sizeList):
         tupleList.append(('r%s' % str(i), nn.ReLU()))
         tupleList.append(('d%s' % str(i), nn.Dropout(.5)))
     #return OrderedDict(tupleList[:-2])
-    return OrderedDict(tupleList[:-3] + [('out', nn.Linear(sizeList[-1],1))])
+    #return OrderedDict(tupleList[:-3] + [('out', nn.Linear(sizeList[-1],1))])
+    return OrderedDict(tupleList[:-3] + [('out', nn.Linear(sizeList[-2], sizeList[-1]))])   
 
 def train(dataloader, model, loss_fn, optimizer, device):
     size = len(dataloader.dataset)

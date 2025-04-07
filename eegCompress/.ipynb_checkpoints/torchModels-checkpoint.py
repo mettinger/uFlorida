@@ -5,15 +5,14 @@ import torch.nn.functional as F
 import numpy as np
 
 
-
 def datasetMake(dateTensor, numSampleInput, typeCode):
   if typeCode == 0:
-    dataset = dataset_0(dateTensor, numSampleInput)
+    dataset = datasetFullyConnected(dateTensor, numSampleInput)
   elif typeCode == 1:
-    dataset = dataset_1(dateTensor, numSampleInput)
+    dataset = datasetConv1d(dateTensor, numSampleInput)
   return dataset
 
-class dataset_0(Dataset):
+class datasetFullyConnected(Dataset):
   def __init__(self, dataTensor, numSampleInput):
     self.dataTensor = dataTensor
     self.numSampleInput = numSampleInput
@@ -29,7 +28,7 @@ class dataset_0(Dataset):
     inputBlockReshape = inputBlock.flatten()
     return inputBlockReshape, label
 
-class model_0(torch.nn.Module):
+class fullyConnected(torch.nn.Module):
   def __init__(self, nChannel, numSampleInput, layerSizeList):
     super().__init__()
     self.typeCode = 0
@@ -43,7 +42,7 @@ class model_0(torch.nn.Module):
     return torch.squeeze(self.myNet(x))
 
 
-class dataset_1(Dataset):
+class datasetConv1d(Dataset):
   def __init__(self, dataTensor, numSampleInput):
     self.dataTensor = dataTensor
     self.numSampleInput = numSampleInput
@@ -57,7 +56,7 @@ class dataset_1(Dataset):
     label = self.dataTensor[:,idx + self.numSampleInput]
     return inputBlock, label
 
-class model_1(torch.nn.Module):
+class conv1d(torch.nn.Module):
   def __init__(self, nChannel, numSampleInput):
     super().__init__()
     self.typeCode = 1
@@ -79,6 +78,34 @@ class model_1(torch.nn.Module):
     self.myNet = torch.nn.Sequential(*self.layerList)
     # torch.nn.MaxPool1d(kernel_size=2)
 
-
   def forward(self, input):
     return self.myNet(input)
+
+
+class fanLayer(nn.Module):
+    def __init__(self, inFeatures, outFourier, outLinear):
+        super().__init__()
+        self.weightLinear = nn.Parameter(torch.randn(outLinear, inFeatures))
+        self.biasLinear = nn.Parameter(torch.randn(outLinear))
+        
+        self.weightFourier = nn.Parameter(torch.randn(outFourier, inFeatures))
+
+    def forward(self, x):
+        linear = F.relu(F.linear(x, self.weightLinear, self.biasLinear))
+        cos = torch.cos(F.linear(x, self.weightFourier))
+        sin = torch.sin(F.linear(x, self.weightFourier))
+        
+        phi = torch.cat((cos, sin, linear), dim=1)
+        return phi
+    
+    
+class fourierModel(nn.Module):
+    def __init__(self):
+        super().__init__()
+        
+        self.fourier1 = fanLayer(10, 5, 8)
+       
+    def forward(self, x):
+        y = self.fourier1(x)
+        return y
+

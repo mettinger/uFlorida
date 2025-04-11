@@ -42,6 +42,9 @@ class fullyConnected(torch.nn.Module):
     def forward(self, x):
         return torch.squeeze(self.myNet(x))
 
+    
+##############################################
+
 
 class datasetConv1d(Dataset):
     def __init__(self, dataTensor, numSampleInput):
@@ -78,6 +81,8 @@ class conv1d(torch.nn.Module):
     
     def forward(self, input):
         return self.myNet(input)
+
+##############################################
 
 
 class fanLayer(nn.Module):

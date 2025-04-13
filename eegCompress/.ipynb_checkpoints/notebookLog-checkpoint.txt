@@ -1,5 +1,0 @@
-04-12 13:14: reconstruct iteration: 0
-04-12 13:17: predicting sample: 100000
-04-12 13:19: predicting sample: 200000
-04-12 13:22: predicting sample: 300000
-04-12 13:24: predicting sample: 400000

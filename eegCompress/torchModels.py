@@ -28,7 +28,7 @@ def makeModel(modelType, nChannel, numSampleInput, numSampleOutput, dataTensor):
         embeddingInit = None
         
         model = conv1dKmeans(nChannel, nCentroids, embeddingInit)
-        dataset = datasetConv1dKmeans(dataTensor)
+        dataset = datasetConv1dKmeans(dataTensor, numSampleInput)
         lossFunction = model.lossFunction
     
     return model, dataset, lossFunction
@@ -161,16 +161,17 @@ class fourierModel(nn.Module):
 #########################################################################
 
 class datasetConv1dKmeans(Dataset):
-    def __init__(self, dataTensor):
+    def __init__(self, dataTensor, numSampleInput):
         self.dataTensor = dataTensor
+        self.numSampleInput = numSampleInput
         self.nChannel, self.nSample = dataTensor.shape
         
     def __len__(self):
         return self.nSample - 1
     
     def __getitem__(self, idx):
-        inputBlock = self.dataTensor[:,idx : idx + 1]
-        label = self.dataTensor[:,idx + 1]
+        inputBlock = self.dataTensor[:,idx : idx + self.numSampleInput]
+        label = self.dataTensor[:,idx + self.numSampleInput + 1]
         return inputBlock, label
 
 class conv1dKmeans(torch.nn.Module):
@@ -203,17 +204,31 @@ class conv1dKmeans(torch.nn.Module):
         return self.myNet(input)
     
     def lossFunction(self, prediction, label):
-        prediction = prediction.cpu()
-        for i in range(self.nCentroids):
-            thisNorm = torch.linalg.vector_norm(prediction - self.embedding.cpu()(torch.LongTensor([i])))
+        residual = (label - prediction)
+        for i in torch.arange(self.nCentroids, device='cuda'):
+            thisNorm = torch.linalg.vector_norm(residual - self.embedding(i))
             if i == 0:
                 bestNorm = thisNorm
                 bestIndex = 0
             elif thisNorm < bestNorm:
                 bestNorm = thisNorm
                 bestIndex = i
-        thisNorm = torch.linalg.vector_norm(prediction - self.embedding.cpu()(torch.LongTensor([bestIndex])))
+        thisNorm = torch.linalg.vector_norm(prediction - self.embedding(i))
         return thisNorm
     
+    '''
+    def lossFunction(self, prediction, label):
+        residual = (label - prediction).cpu()
+        for i in range(self.nCentroids):
+            thisNorm = torch.linalg.vector_norm(residual - self.embedding.cpu()(torch.LongTensor([i])))
+            if i == 0:
+                bestNorm = thisNorm
+                bestIndex = 0
+            elif thisNorm < bestNorm:
+                bestNorm = thisNorm
+                bestIndex = i
+        thisNorm = torch.linalg.vector_norm(prediction - self.embedding(torch.LongTensor([bestIndex])).cuda())
+        return thisNorm
+'''    
     
 

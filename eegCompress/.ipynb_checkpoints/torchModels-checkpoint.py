@@ -29,7 +29,7 @@ def makeModel(modelType, initDict):
         dataTensor = initDict['dataTensor']
         numSampleInput = initDict['numSampleInput']
         
-        model = conv1dKmeans(kmeansInit)
+        model = conv1dKmeans(kmeansInit, numSampleInput)
         dataset = datasetConv1dKmeans(dataTensor, numSampleInput)
         lossFunction = model.lossFunction
     
@@ -169,7 +169,7 @@ class datasetConv1dKmeans(Dataset):
         self.nChannel, self.nSample = dataTensor.shape
         
     def __len__(self):
-        return self.nSample - 1
+        return self.nSample - 1 - self.numSampleInput
     
     def __getitem__(self, idx):
         inputBlock = self.dataTensor[:,idx : idx + self.numSampleInput]
@@ -177,10 +177,11 @@ class datasetConv1dKmeans(Dataset):
         return inputBlock, label
 
 class conv1dKmeans(torch.nn.Module):
-    def __init__(self, kmeansInit):
+    def __init__(self, kmeansInit, numSampleInput):
         super().__init__()
         self.typeCode = 1
         self.kmeansInit = kmeansInit
+        self.numSampleInput = numSampleInput
         self.nCentroids, self.nChannel = kmeansInit.shape
         self.layerList = [torch.nn.Conv1d(in_channels=self.nChannel, out_channels=50, kernel_size=3),
                           torch.nn.LeakyReLU(),
@@ -195,20 +196,18 @@ class conv1dKmeans(torch.nn.Module):
         
         self.myNet = torch.nn.Sequential(*self.layerList)
         if torch.cuda.is_available():
-            self.kmeans = torch.unsqueeze(nn.Parameter(torch.tensor(kmeansInit)),0).to('cuda')
+            self.kmeans = nn.Parameter(torch.tensor(kmeansInit))
         else:
-            self.kmeans = torch.unsqueeze(nn.Parameter(torch.tensor(kmeansInit)),0)
+            self.kmeans = nn.Parameter(torch.tensor(kmeansInit))
         
     def forward(self, input):
         return self.myNet(input)
     
     def lossFunction(self, prediction, label):
-        label = torch.unsqueeze(label, 1)
-        prediction = torch.unsqueeze(prediction,1)
-        residual = label - prediction
-        norms = torch.linalg.vector_norm(residual - self.kmeans, dim = 2)
+        residual = torch.unsqueeze(label - prediction, 1)
+        norms = torch.linalg.vector_norm(residual - torch.unsqueeze(self.kmeans,0), dim = 2)
         bestIndex = torch.argmin(norms, dim=1)
-        thisNorm = torch.linalg.vector_norm (prediction - self.kmeans[bestIndex])
+        thisNorm = torch.linalg.vector_norm (prediction - self.kmeans[bestIndex,:], dim = 1)
         return thisNorm
     
     '''

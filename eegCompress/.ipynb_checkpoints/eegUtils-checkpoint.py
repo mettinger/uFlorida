@@ -87,20 +87,17 @@ def timeSeriesCompare(model, start, secondsToPlot, sFreq, data, numSampleInput, 
     return fig, original, predicted
 
 def saveModel(model, optimizer, epoch, loss, predicted):
-
-  directoryPath = '/content/drive/MyDrive/NeuroResearch/Data/eegCompress/models/'
-  saveName = 'savedModel_' + str(datetime.datetime.now().astimezone(timeZone).strftime('%m-%d %H:%M')) + '_' + f"{np.mean(predicted):.3f}" + '.pt'
-  torch.save({'epoch': epoch,
-              'model_state_dict': model.state_dict(),
-              'optimizer_state_dict': optimizer.state_dict(),
-              'loss': loss}, directoryPath + saveName)
-
-  # save structure information
-  structureFileName = directoryPath + 'structure_' + str(datetime.datetime.now().astimezone(timeZone).strftime('%m-%d %H:%M')) + '.txt'
-  with open(structureFileName, "w") as text_file:
-    print("Network structure: {}".format(str(model)), file=text_file)
-
-  print("Model has been saved: " + saveName)
+    directoryPath = '/blue/gkalamangalam/jmark.ettinger/eegCompress/models/'
+    saveName = 'savedModel_' + str(datetime.datetime.now().astimezone(timeZone).strftime('%m-%d %H:%M')) + '_' + f"{np.mean(predicted):.3f}" + '.pt'
+    torch.save({'epoch': epoch,
+                'model_state_dict': model.state_dict(),
+                'optimizer_state_dict': optimizer.state_dict(),
+                'loss': loss}, directoryPath + saveName)
+    # save structure information
+    structureFileName = directoryPath + 'structure_' + str(datetime.datetime.now().astimezone(timeZone).strftime('%m-%d %H:%M')) + '.txt'
+    with open(structureFileName, "w") as text_file:
+        print("Network structure: {}".format(str(model)), file=text_file)
+    print("Model has been saved: " + saveName)
 
 def loadModel(path, model, optimizer, trainBool = True):
 

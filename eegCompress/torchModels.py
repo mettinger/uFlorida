@@ -5,8 +5,9 @@ import torch.nn.functional as F
 import numpy as np
 from eegUtils import *
 
-def makeModel(modelType, nChannel, numSampleInput, numSampleOutput, dataTensor):
+def makeModel(modelType, initDict):
     
+    #modelType, nChannel, numSampleInput, numSampleOutput, dataTensor
     if modelType == 'fullyConnected':
         inSize = nChannel * numSampleInput
         outSize = nChannel * numSampleOutput
@@ -24,10 +25,11 @@ def makeModel(modelType, nChannel, numSampleInput, numSampleOutput, dataTensor):
         dataset = datasetFourier(dataTensor, numSampleInput)
         lossFunction = torch.nn.MSELoss()
     elif modelType == 'kmeans':
-        nCentroids = 2**16
-        embeddingInit = None
+        kmeansInit = initDict['kmeansInit']
+        dataTensor = initDict['dataTensor']
+        numSampleInput = initDict['numSampleInput']
         
-        model = conv1dKmeans(nChannel, nCentroids, embeddingInit)
+        model = conv1dKmeans(kmeansInit)
         dataset = datasetConv1dKmeans(dataTensor, numSampleInput)
         lossFunction = model.lossFunction
     
@@ -175,34 +177,50 @@ class datasetConv1dKmeans(Dataset):
         return inputBlock, label
 
 class conv1dKmeans(torch.nn.Module):
-    def __init__(self, nChannel, nCentroids, embeddingInit):
+    def __init__(self, kmeansInit):
         super().__init__()
         self.typeCode = 1
-        self.nChannel = nChannel
-        self.nCentroids = nCentroids
-        self.embeddingInit = embeddingInit
-        self.layerList = [torch.nn.Conv1d(in_channels=nChannel, out_channels=50, kernel_size=3),
+        self.kmeansInit = kmeansInit
+        self.nCentroids, self.nChannel = kmeansInit.shape
+        self.layerList = [torch.nn.Conv1d(in_channels=self.nChannel, out_channels=50, kernel_size=3),
                           torch.nn.LeakyReLU(),
                           torch.nn.Conv1d(in_channels=50, out_channels=50, kernel_size=3),
                           torch.nn.LeakyReLU(),
                           torch.nn.Conv1d(in_channels=50, out_channels=50, kernel_size=3),
                           torch.nn.LeakyReLU(),
                           torch.nn.Flatten(),
-                          torch.nn.Linear(700,nChannel)]
+                          torch.nn.Linear(700,self.nChannel)]
         for thisLayer in [0,2,4,7]:
             torch.nn.init.xavier_uniform_(self.layerList[thisLayer].weight)
         
         self.myNet = torch.nn.Sequential(*self.layerList)
-            
+        if torch.cuda.is_available():
+            self.kmeans = torch.unsqueeze(nn.Parameter(torch.tensor(kmeansInit)),0).to('cuda')
+        else:
+            self.kmeans = torch.unsqueeze(nn.Parameter(torch.tensor(kmeansInit)),0)
+        
+    def forward(self, input):
+        return self.myNet(input)
+    
+    def lossFunction(self, prediction, label):
+        label = torch.unsqueeze(label, 1)
+        prediction = torch.unsqueeze(prediction,1)
+        residual = label - prediction
+        norms = torch.linalg.vector_norm(residual - self.kmeans, dim = 2)
+        bestIndex = torch.argmin(norms, dim=1)
+        thisNorm = torch.linalg.vector_norm (prediction - self.kmeans[bestIndex])
+        return thisNorm
+    
+    '''
         if embeddingInit == None:
             self.embedding = nn.Embedding(self.nCentroids, self.nChannel)
         else:
             weight = torch.FloatTensor(self.embeddingInit)
             self.embedding = nn.Embedding.from_pretrained(weight)
-            
-    def forward(self, input):
-        return self.myNet(input)
+         '''
     
+        
+    '''
     def lossFunction(self, prediction, label):
         residual = (label - prediction)
         for i in torch.arange(self.nCentroids, device='cuda'):
@@ -213,22 +231,8 @@ class conv1dKmeans(torch.nn.Module):
             elif thisNorm < bestNorm:
                 bestNorm = thisNorm
                 bestIndex = i
-        thisNorm = torch.linalg.vector_norm(prediction - self.embedding(i))
+        thisNorm = torch.linalg.vector_norm(prediction - self.embedding(bestIndex))
         return thisNorm
-    
     '''
-    def lossFunction(self, prediction, label):
-        residual = (label - prediction).cpu()
-        for i in range(self.nCentroids):
-            thisNorm = torch.linalg.vector_norm(residual - self.embedding.cpu()(torch.LongTensor([i])))
-            if i == 0:
-                bestNorm = thisNorm
-                bestIndex = 0
-            elif thisNorm < bestNorm:
-                bestNorm = thisNorm
-                bestIndex = i
-        thisNorm = torch.linalg.vector_norm(prediction - self.embedding(torch.LongTensor([bestIndex])).cuda())
-        return thisNorm
-'''    
     
-
+    

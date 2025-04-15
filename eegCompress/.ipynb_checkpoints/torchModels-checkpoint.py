@@ -30,7 +30,7 @@ def makeModel(modelType, initDict):
         numSampleInput = initDict['numSampleInput']
         
         model = conv1dKmeans(kmeansInit, numSampleInput)
-        dataset = datasetConv1dKmeans(dataTensor, numSampleInput)
+        dataset = datasetConv1d(dataTensor, numSampleInput) # same data structure as conv1d network
         lossFunction = model.lossFunction
     
     return model, dataset, lossFunction
@@ -162,6 +162,7 @@ class fourierModel(nn.Module):
     
 #########################################################################
 
+'''
 class datasetConv1dKmeans(Dataset):
     def __init__(self, dataTensor, numSampleInput):
         self.dataTensor = dataTensor
@@ -173,8 +174,9 @@ class datasetConv1dKmeans(Dataset):
     
     def __getitem__(self, idx):
         inputBlock = self.dataTensor[:,idx : idx + self.numSampleInput]
-        label = self.dataTensor[:,idx + self.numSampleInput + 1]
+        label = self.dataTensor[:,idx + self.numSampleInput]
         return inputBlock, label
+'''
 
 class conv1dKmeans(torch.nn.Module):
     def __init__(self, kmeansInit, numSampleInput):
@@ -209,29 +211,4 @@ class conv1dKmeans(torch.nn.Module):
         bestIndex = torch.argmin(norms, dim=1)
         thisNorm = torch.linalg.vector_norm (prediction - self.kmeans[bestIndex,:], dim = 1)
         return thisNorm
-    
-    '''
-        if embeddingInit == None:
-            self.embedding = nn.Embedding(self.nCentroids, self.nChannel)
-        else:
-            weight = torch.FloatTensor(self.embeddingInit)
-            self.embedding = nn.Embedding.from_pretrained(weight)
-         '''
-    
-        
-    '''
-    def lossFunction(self, prediction, label):
-        residual = (label - prediction)
-        for i in torch.arange(self.nCentroids, device='cuda'):
-            thisNorm = torch.linalg.vector_norm(residual - self.embedding(i))
-            if i == 0:
-                bestNorm = thisNorm
-                bestIndex = 0
-            elif thisNorm < bestNorm:
-                bestNorm = thisNorm
-                bestIndex = i
-        thisNorm = torch.linalg.vector_norm(prediction - self.embedding(bestIndex))
-        return thisNorm
-    '''
-    
     

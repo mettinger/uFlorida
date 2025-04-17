@@ -162,21 +162,6 @@ class fourierModel(nn.Module):
     
 #########################################################################
 
-'''
-class datasetConv1dKmeans(Dataset):
-    def __init__(self, dataTensor, numSampleInput):
-        self.dataTensor = dataTensor
-        self.numSampleInput = numSampleInput
-        self.nChannel, self.nSample = dataTensor.shape
-        
-    def __len__(self):
-        return self.nSample - 1 - self.numSampleInput
-    
-    def __getitem__(self, idx):
-        inputBlock = self.dataTensor[:,idx : idx + self.numSampleInput]
-        label = self.dataTensor[:,idx + self.numSampleInput]
-        return inputBlock, label
-'''
 
 class conv1dKmeans(torch.nn.Module):
     def __init__(self, kmeansInit, numSampleInput):

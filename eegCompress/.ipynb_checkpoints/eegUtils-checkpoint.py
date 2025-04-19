@@ -47,18 +47,9 @@ def predictEEG(model, interval, data, batch_size=128):
     model.train()
     return predicted
 
-def timeSeriesCompare(model, start, secondsToPlot, sFreq, data, numSampleInput, channel = 0, plotOption="both"):
-    # currently only works for outputSamples = 1
-
-    if secondsToPlot == None:
-        original = data
-    else:
-        samplesToPlot = secondsToPlot * sFreq
-        original = data[:,start:start + samplesToPlot]
-
-    predicted = predictEEG(model, (start, start + samplesToPlot), data)
-    originalChannel = original[channel,:]
-    predictedChannel = predicted[channel,:]
+def timeSeriesCompare(original, predicted, start, samplesToPLot, channel = 0, plotOption="both"):
+    originalChannel = original[channel, start:start + samplesToPlot]
+    predictedChannel = predicted[channel, start:start + samplesToPlot]
 
     fig = plt.figure()
     if plotOption == "both":
@@ -82,8 +73,8 @@ def timeSeriesCompare(model, start, secondsToPlot, sFreq, data, numSampleInput, 
         plt.ylim([thisMin, thisMax])
         plt.title('predicted')
 
-    return fig, original, predicted
-
+    return fig
+    
 def saveModel(model, optimizer, epoch, loss, predicted):
     directoryPath = '/blue/gkalamangalam/jmark.ettinger/eegCompress/models/'
     saveName = 'savedModel_' + str(datetime.datetime.now().astimezone(timeZone).strftime('%m-%d %H:%M')) + '_' + f"{np.mean(predicted):.3f}" + '.pt'
@@ -127,11 +118,8 @@ def samplerMake(model, numSampleInput, data):
     nChannel, nSample = data.shape
     predicted = predictEEG(model, None, data)
     residual = np.abs(data - predicted)
-    #residualMeasure = np.max(residual, axis=0)[numSampleInput:]
     residualMeasure = np.mean(residual, axis=0)[numSampleInput:]
     sampler = torch.utils.data.WeightedRandomSampler(weights=residualMeasure, num_samples=nSample)
-    
-    print("Residual measure: " + str(np.max(residualMeasure)))
     return sampler, predicted, residualMeasure
 
 def modelSize(model):
@@ -147,3 +135,41 @@ def modelSize(model):
     return size_all_mb
 
 
+'''
+def timeSeriesCompare(model, start, secondsToPlot, sFreq, data, numSampleInput, channel = 0, plotOption="both"):
+    # currently only works for outputSamples = 1
+
+    if secondsToPlot == None:
+        original = data
+    else:
+        samplesToPlot = secondsToPlot * sFreq
+        original = data[:,start:start + samplesToPlot]
+
+    predicted = predictEEG(model, (start, start + samplesToPlot), data)
+    originalChannel = original[channel,:]
+    predictedChannel = predicted[channel,:]
+
+    fig = plt.figure()
+    if plotOption == "both":
+
+        plt.plot(originalChannel, label='original')
+        plt.plot(predictedChannel, label='predicted')
+        thisMin = np.min([originalChannel, predictedChannel])
+        thisMax = np.max([originalChannel, predictedChannel])
+        plt.ylim([thisMin, thisMax])
+        plt.legend()
+    elif plotOption == "orig":
+        plt.plot(originalChannel)
+        thisMin = np.min([originalChannel])
+        thisMax = np.max([originalChannel])
+        plt.ylim([thisMin, thisMax])
+        plt.title('original')
+    else:
+        plt.plot(predictedChannel)
+        thisMin = np.min([predictedChannel])
+        thisMax = np.max([predictedChannel])
+        plt.ylim([thisMin, thisMax])
+        plt.title('predicted')
+
+    return fig, original, predicted
+    '''

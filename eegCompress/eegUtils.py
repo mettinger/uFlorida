@@ -2,7 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 import torch
-from torch.utils.data.dataset import Dataset
 
 import datetime
 import pytz
@@ -133,42 +132,3 @@ def modelSize(model):
     print('model size: {:.3f}MB'.format(size_all_mb))
     return size_all_mb
 
-
-'''
-def timeSeriesCompare(model, start, secondsToPlot, sFreq, data, numSampleInput, channel = 0, plotOption="both"):
-    # currently only works for outputSamples = 1
-
-    if secondsToPlot == None:
-        original = data
-    else:
-        samplesToPlot = secondsToPlot * sFreq
-        original = data[:,start:start + samplesToPlot]
-
-    predicted = predictEEG(model, (start, start + samplesToPlot), data)
-    originalChannel = original[channel,:]
-    predictedChannel = predicted[channel,:]
-
-    fig = plt.figure()
-    if plotOption == "both":
-
-        plt.plot(originalChannel, label='original')
-        plt.plot(predictedChannel, label='predicted')
-        thisMin = np.min([originalChannel, predictedChannel])
-        thisMax = np.max([originalChannel, predictedChannel])
-        plt.ylim([thisMin, thisMax])
-        plt.legend()
-    elif plotOption == "orig":
-        plt.plot(originalChannel)
-        thisMin = np.min([originalChannel])
-        thisMax = np.max([originalChannel])
-        plt.ylim([thisMin, thisMax])
-        plt.title('original')
-    else:
-        plt.plot(predictedChannel)
-        thisMin = np.min([predictedChannel])
-        thisMax = np.max([predictedChannel])
-        plt.ylim([thisMin, thisMax])
-        plt.title('predicted')
-
-    return fig, original, predicted
-    '''

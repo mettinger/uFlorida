@@ -8,7 +8,6 @@ import datetime
 import pytz
 timeZone = pytz.timezone('America/Los_Angeles')
 
-import torchModels
 
 def predictEEG(model, interval, data, batch_size=128):
     model.eval()

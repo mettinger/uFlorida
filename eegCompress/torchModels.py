@@ -3,7 +3,6 @@ from torch.utils.data.dataset import Dataset
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
-#from eegUtils import *
 
 def makeModel(modelType, initDict):
     

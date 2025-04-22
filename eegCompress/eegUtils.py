@@ -89,7 +89,8 @@ def saveModel(model, optimizer, epoch, loss, predicted):
 def loadModel(path, model, optimizer, trainBool = True):
     checkpoint = torch.load(path, weights_only=True)
     model.load_state_dict(checkpoint['model_state_dict'])
-    optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+    if optimizer != None:
+        optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
     epoch = checkpoint['epoch']
     loss = checkpoint['loss']
     model.eval()

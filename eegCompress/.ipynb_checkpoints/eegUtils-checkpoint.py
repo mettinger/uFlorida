@@ -74,9 +74,9 @@ def timeSeriesCompare(original, predicted, start, samplesToPlot, channel = 0, pl
 
     return fig
     
-def saveModel(model, optimizer, epoch, loss, predicted):
+def saveModel(model, optimizer, epoch, loss, meanAbsoluteError):
     directoryPath = '/blue/gkalamangalam/jmark.ettinger/eegCompress/models/'
-    saveName = 'savedModel_' + str(datetime.datetime.now().astimezone(timeZone).strftime('%m-%d %H:%M')) + '_' + f"{np.mean(predicted):.3f}" + '.pt'
+    saveName = 'savedModel_' + str(datetime.datetime.now().astimezone(timeZone).strftime('%m-%d %H:%M')) + '_' + f"{meanAbsoluteError:.3f}" + '.pt'
     torch.save({'epoch': epoch,
                 'model_state_dict': model.state_dict(),
                 'optimizer_state_dict': optimizer.state_dict(),

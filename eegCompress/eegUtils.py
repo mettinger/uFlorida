@@ -46,7 +46,7 @@ def predictEEG(model, interval, data, batch_size=128):
     model.train()
     return predicted
 
-def timeSeriesCompare(original, predicted, start, samplesToPLot, channel = 0, plotOption="both"):
+def timeSeriesCompare(original, predicted, start, samplesToPlot, channel = 0, plotOption="both"):
     originalChannel = original[channel, start:start + samplesToPlot]
     predictedChannel = predicted[channel, start:start + samplesToPlot]
 

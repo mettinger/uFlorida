@@ -3,7 +3,6 @@ from torch.utils.data.dataset import Dataset
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
-#from eegUtils import *
 
 def makeModel(modelType, initDict):
     
@@ -16,6 +15,9 @@ def makeModel(modelType, initDict):
         dataset = datasetFullyConnected(dataTensor, numSampleInput)
         lossFunction = torch.nn.MSELoss()
     elif modelType == 'conv1d':
+        dataTensor = initDict['dataTensor']
+        numSampleInput = initDict['numSampleInput']
+        nChannel = initDict['nChannel']
         model = conv1d(nChannel, numSampleInput)
         dataset = datasetConv1d(dataTensor, numSampleInput)
         lossFunction = torch.nn.MSELoss()
@@ -95,6 +97,33 @@ class conv1d(torch.nn.Module):
         self.typeCode = 1
         self.nChannel = nChannel
         self.numSampleInput = numSampleInput
+        
+        self.conv1 = torch.nn.Conv1d(in_channels=nChannel, out_channels=50, kernel_size=3)
+        self.conv2 = torch.nn.Conv1d(in_channels=50, out_channels=50, kernel_size=3)
+        self.conv3 = torch.nn.Conv1d(in_channels=50, out_channels=50, kernel_size=3)
+        self.linear4 = torch.nn.Linear(700,nChannel)
+        
+        torch.nn.init.xavier_uniform_(self.conv1.weight)
+        torch.nn.init.xavier_uniform_(self.conv2.weight)
+        torch.nn.init.xavier_uniform_(self.conv3.weight)
+        torch.nn.init.xavier_uniform_(self.linear4.weight)
+        
+    def forward(self, input):
+        x = F.leaky_relu(self.conv1(input))
+        x = F.leaky_relu(self.conv2(x))
+        x = F.leaky_relu(self.conv3(x))
+        x = torch.flatten(x,1)
+        x = self.linear4(x)
+        return x
+        
+    
+'''
+class conv1d(torch.nn.Module):
+    def __init__(self, nChannel, numSampleInput):
+        super().__init__()
+        self.typeCode = 1
+        self.nChannel = nChannel
+        self.numSampleInput = numSampleInput
         self.layerList = [torch.nn.Conv1d(in_channels=nChannel, out_channels=50, kernel_size=3),
                           torch.nn.LeakyReLU(),
                           torch.nn.Conv1d(in_channels=50, out_channels=50, kernel_size=3),
@@ -105,11 +134,13 @@ class conv1d(torch.nn.Module):
                           torch.nn.Linear(700,nChannel)]
         for thisLayer in [0,2,4,7]:
             torch.nn.init.xavier_uniform_(self.layerList[thisLayer].weight)
-            self.myNet = torch.nn.Sequential(*self.layerList)
             # torch.nn.MaxPool1d(kernel_size=2)
+            
+        self.myNet = torch.nn.Sequential(*self.layerList)
     
     def forward(self, input):
         return self.myNet(input)
+'''
 
 ##############################################
 

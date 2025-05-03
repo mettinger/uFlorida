@@ -92,6 +92,8 @@ def loadModel(path, model, optimizer, trainBool = True):
     model.load_state_dict(checkpoint['model_state_dict'])
     if optimizer != None:
         optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+    else:
+        optimizer = None
     epoch = checkpoint['epoch']
     loss = checkpoint['loss']
     model.eval()

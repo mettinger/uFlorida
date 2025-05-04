@@ -601,3 +601,410 @@
 05-02 19:21: Epoch: 263
 05-02 19:24: Epoch: 264
 05-03 07:04: Epoch: 262
+05-03 07:07: Epoch: 263
+05-03 07:10: Epoch: 264
+05-03 07:12: Epoch: 265
+05-03 07:15: Epoch: 266
+05-03 07:17: Epoch: 267
+05-03 07:20: Epoch: 268
+05-03 07:22: Epoch: 269
+05-03 07:25: Epoch: 270
+05-03 07:27: Epoch: 271
+05-03 07:30: Epoch: 272
+05-03 07:32: Epoch: 273
+05-03 07:35: Epoch: 274
+05-03 07:37: Epoch: 275
+05-03 07:40: Epoch: 276
+05-03 07:42: Epoch: 277
+05-03 07:45: Epoch: 278
+05-03 07:47: Epoch: 279
+05-03 07:50: Epoch: 280
+05-03 07:52: Epoch: 281
+05-03 07:55: Epoch: 282
+05-03 07:57: Epoch: 283
+05-03 08:00: Epoch: 284
+05-03 08:02: Epoch: 285
+05-03 08:05: Epoch: 286
+05-03 08:07: Epoch: 287
+05-03 08:10: Epoch: 288
+05-03 08:12: Epoch: 289
+05-03 08:15: Epoch: 290
+05-03 08:17: Epoch: 291
+05-03 08:20: Epoch: 292
+05-03 08:22: Epoch: 293
+05-03 08:25: Epoch: 294
+05-03 08:27: Epoch: 295
+05-03 08:30: Epoch: 296
+05-03 08:32: Epoch: 297
+05-03 08:35: Epoch: 298
+05-03 08:37: Epoch: 299
+05-03 08:40: Epoch: 300
+05-03 08:42: Epoch: 301
+05-03 08:45: Epoch: 302
+05-03 08:47: Epoch: 303
+05-03 08:50: Epoch: 304
+05-03 08:52: Epoch: 305
+05-03 08:55: Epoch: 306
+05-03 08:57: Epoch: 307
+05-03 08:59: Epoch: 308
+05-03 09:02: Epoch: 309
+05-03 09:05: Epoch: 310
+05-03 09:07: Epoch: 311
+05-03 09:10: Epoch: 312
+05-03 09:12: mean absolute prediction error: 0.058257692649180765
+05-03 09:12: Epoch: 313
+05-03 09:15: Epoch: 314
+05-03 09:17: Epoch: 315
+05-03 09:20: Epoch: 316
+05-03 09:22: Epoch: 317
+05-03 09:24: Epoch: 318
+05-03 09:27: Epoch: 319
+05-03 09:29: Epoch: 320
+05-03 09:32: Epoch: 321
+05-03 09:34: mean absolute prediction error: 0.058228900529128845
+05-03 09:34: Epoch: 322
+05-03 09:37: Epoch: 323
+05-03 09:39: Epoch: 324
+05-03 09:42: Epoch: 325
+05-03 09:44: Epoch: 326
+05-03 09:47: Epoch: 327
+05-03 09:49: Epoch: 328
+05-03 09:52: mean absolute prediction error: 0.05790929739130251
+05-03 09:52: Epoch: 329
+05-03 09:54: Epoch: 330
+05-03 09:57: Epoch: 331
+05-03 10:04: Epoch: 0
+05-03 10:07: Epoch: 0
+05-03 10:09: mean absolute prediction error: 0.6548377742713222
+05-03 10:09: Epoch: 1
+05-03 10:12: mean absolute prediction error: 0.15698985665280282
+05-03 10:12: Epoch: 2
+05-03 10:17: Epoch: 2
+05-03 10:19: Epoch: 3
+05-03 10:22: mean absolute prediction error: 0.1538216846216031
+05-03 10:22: Epoch: 4
+05-03 10:28: Epoch: 0
+05-03 10:31: mean absolute prediction error: 0.7172137568582806
+05-03 10:31: Epoch: 1
+05-03 10:34: mean absolute prediction error: 0.15356189646871204
+05-03 10:34: Epoch: 2
+05-03 10:37: mean absolute prediction error: 0.12367042004405984
+05-03 10:37: Epoch: 3
+05-03 10:41: Epoch: 3
+05-03 10:44: Epoch: 4
+05-03 10:47: Epoch: 5
+05-03 10:49: Epoch: 0
+05-03 10:52: mean absolute prediction error: 0.2618713658877842
+05-03 10:52: Epoch: 1
+05-03 10:55: mean absolute prediction error: 0.2005195049306538
+05-03 10:55: Epoch: 2
+05-03 10:57: mean absolute prediction error: 0.17186410845025551
+05-03 10:57: Epoch: 3
+05-03 11:00: mean absolute prediction error: 0.16187776738959178
+05-03 11:00: Epoch: 4
+05-03 11:03: mean absolute prediction error: 0.15577402881501853
+05-03 11:03: Epoch: 5
+05-03 11:05: mean absolute prediction error: 0.14666990420461512
+05-03 11:05: Epoch: 6
+05-03 11:08: mean absolute prediction error: 0.1400639395854975
+05-03 11:08: Epoch: 7
+05-03 11:10: mean absolute prediction error: 0.13571805176885568
+05-03 11:10: Epoch: 8
+05-03 11:13: mean absolute prediction error: 0.1295721913301131
+05-03 11:13: Epoch: 9
+05-03 11:15: mean absolute prediction error: 0.12448744386616506
+05-03 11:15: Epoch: 10
+05-03 11:18: mean absolute prediction error: 0.12088769744021514
+05-03 11:18: Epoch: 11
+05-03 11:21: mean absolute prediction error: 0.11681125158182727
+05-03 11:21: Epoch: 12
+05-03 11:23: mean absolute prediction error: 0.1144079051921527
+05-03 11:23: Epoch: 13
+05-03 11:26: mean absolute prediction error: 0.11152403738124671
+05-03 11:26: Epoch: 14
+05-03 11:28: mean absolute prediction error: 0.10901300698286935
+05-03 11:28: Epoch: 15
+05-03 11:31: mean absolute prediction error: 0.10725666198305343
+05-03 11:31: Epoch: 16
+05-03 11:33: mean absolute prediction error: 0.10542559900755936
+05-03 11:33: Epoch: 17
+05-03 11:36: mean absolute prediction error: 0.10390688845780346
+05-03 11:36: Epoch: 18
+05-03 11:38: mean absolute prediction error: 0.10151339105081905
+05-03 11:38: Epoch: 19
+05-03 11:41: mean absolute prediction error: 0.10023893886258133
+05-03 11:41: Epoch: 20
+05-03 11:43: mean absolute prediction error: 0.09828178819719126
+05-03 11:43: Epoch: 21
+05-03 11:46: mean absolute prediction error: 0.09638889042343203
+05-03 11:46: Epoch: 22
+05-03 11:48: mean absolute prediction error: 0.09500402603752574
+05-03 11:48: Epoch: 23
+05-03 11:51: mean absolute prediction error: 0.09371376935438261
+05-03 11:51: Epoch: 24
+05-03 11:54: mean absolute prediction error: 0.09268262819918156
+05-03 11:54: Epoch: 25
+05-03 11:56: mean absolute prediction error: 0.09117444080898132
+05-03 11:56: Epoch: 26
+05-03 11:59: mean absolute prediction error: 0.09023039499834845
+05-03 11:59: Epoch: 27
+05-03 12:01: mean absolute prediction error: 0.08919301840259883
+05-03 12:01: Epoch: 28
+05-03 12:04: mean absolute prediction error: 0.08782388879066545
+05-03 12:04: Epoch: 29
+05-03 12:06: mean absolute prediction error: 0.08727104844764552
+05-03 12:06: Epoch: 30
+05-03 12:09: mean absolute prediction error: 0.08596389578050476
+05-03 12:09: Epoch: 31
+05-03 12:11: mean absolute prediction error: 0.085675172426417
+05-03 12:11: Epoch: 32
+05-03 12:14: mean absolute prediction error: 0.0845892821787847
+05-03 12:14: Epoch: 33
+05-03 12:16: mean absolute prediction error: 0.08360448147587135
+05-03 12:16: Epoch: 34
+05-03 12:19: mean absolute prediction error: 0.08318456942548445
+05-03 12:19: Epoch: 35
+05-03 12:21: mean absolute prediction error: 0.08255241322013591
+05-03 12:21: Epoch: 36
+05-03 12:24: mean absolute prediction error: 0.08202711872355932
+05-03 12:24: Epoch: 37
+05-03 12:26: mean absolute prediction error: 0.08154905860501539
+05-03 12:26: Epoch: 38
+05-03 12:29: mean absolute prediction error: 0.08073981174224519
+05-03 12:29: Epoch: 39
+05-03 12:32: mean absolute prediction error: 0.08027749421331083
+05-03 12:32: Epoch: 40
+05-03 12:34: mean absolute prediction error: 0.07987876598771049
+05-03 12:34: Epoch: 41
+05-03 12:37: mean absolute prediction error: 0.07950797976495264
+05-03 12:37: Epoch: 42
+05-03 12:39: mean absolute prediction error: 0.07874262494189385
+05-03 12:39: Epoch: 43
+05-03 12:42: mean absolute prediction error: 0.078145861369309
+05-03 12:42: Epoch: 44
+05-03 12:44: mean absolute prediction error: 0.07775292520957809
+05-03 12:44: Epoch: 45
+05-03 12:47: Epoch: 46
+05-03 12:49: mean absolute prediction error: 0.07685009656524379
+05-03 12:49: Epoch: 47
+05-03 12:52: mean absolute prediction error: 0.07657240514332854
+05-03 12:52: Epoch: 48
+05-03 12:54: Epoch: 49
+05-03 12:57: mean absolute prediction error: 0.07591304077338518
+05-03 12:57: Epoch: 50
+05-03 13:00: mean absolute prediction error: 0.07532384381555687
+05-03 13:00: Epoch: 51
+05-03 13:02: Epoch: 52
+05-03 13:05: mean absolute prediction error: 0.0747294311141042
+05-03 13:05: Epoch: 53
+05-03 13:07: mean absolute prediction error: 0.0743364049111933
+05-03 13:07: Epoch: 54
+05-03 13:10: mean absolute prediction error: 0.07395872441379502
+05-03 13:10: Epoch: 55
+05-03 13:12: mean absolute prediction error: 0.0735276155547188
+05-03 13:13: Epoch: 56
+05-03 13:15: Epoch: 57
+05-03 13:18: mean absolute prediction error: 0.0731294993771056
+05-03 13:18: Epoch: 58
+05-03 13:20: Epoch: 59
+05-03 13:23: mean absolute prediction error: 0.07238709061075745
+05-03 13:23: Epoch: 60
+05-03 13:26: mean absolute prediction error: 0.07233688223914139
+05-03 13:26: Epoch: 61
+05-03 13:28: mean absolute prediction error: 0.07224300835077929
+05-03 13:28: Epoch: 62
+05-03 13:31: mean absolute prediction error: 0.07206241434262278
+05-03 13:31: Epoch: 63
+05-03 13:34: mean absolute prediction error: 0.07169154813186673
+05-03 13:34: Epoch: 64
+05-03 13:36: mean absolute prediction error: 0.07155909872309031
+05-03 13:36: Epoch: 65
+05-03 13:39: mean absolute prediction error: 0.07141626765846308
+05-03 13:39: Epoch: 66
+05-03 13:41: mean absolute prediction error: 0.07096514160421125
+05-03 13:41: Epoch: 67
+05-03 13:44: mean absolute prediction error: 0.07064935935635545
+05-03 13:44: Epoch: 68
+05-03 13:46: Epoch: 69
+05-03 13:49: mean absolute prediction error: 0.07013914035064195
+05-03 13:49: Epoch: 70
+05-03 13:51: Epoch: 71
+05-03 13:54: mean absolute prediction error: 0.06993400833750522
+05-03 13:54: Epoch: 72
+05-03 13:56: Epoch: 73
+05-03 13:59: mean absolute prediction error: 0.06978416297807409
+05-03 13:59: Epoch: 74
+05-03 14:01: mean absolute prediction error: 0.06932231488105023
+05-03 14:01: Epoch: 75
+05-03 14:04: Epoch: 76
+05-03 14:07: mean absolute prediction error: 0.06917522138064476
+05-03 14:07: Epoch: 77
+05-03 14:09: Epoch: 78
+05-03 14:12: mean absolute prediction error: 0.06859940313768449
+05-03 14:12: Epoch: 79
+05-03 14:14: Epoch: 80
+05-03 14:17: Epoch: 81
+05-03 14:19: Epoch: 82
+05-03 14:22: mean absolute prediction error: 0.06846911483959411
+05-03 14:22: Epoch: 83
+05-03 14:24: mean absolute prediction error: 0.06797514185552243
+05-03 14:24: Epoch: 84
+05-03 14:27: mean absolute prediction error: 0.06781353019748258
+05-03 14:27: Epoch: 85
+05-03 14:29: Epoch: 86
+05-03 14:32: Epoch: 87
+05-03 14:34: mean absolute prediction error: 0.06730871410350642
+05-03 14:34: Epoch: 88
+05-03 14:37: Epoch: 89
+05-03 14:39: mean absolute prediction error: 0.06708756226878135
+05-03 14:39: Epoch: 90
+05-03 14:42: mean absolute prediction error: 0.0669101191738554
+05-03 14:42: Epoch: 91
+05-03 14:44: Epoch: 92
+05-03 14:49: Epoch: 93
+05-03 14:52: mean absolute prediction error: 0.06672536508065509
+05-03 14:52: Epoch: 94
+05-03 14:54: Epoch: 95
+05-03 14:57: mean absolute prediction error: 0.06651221871051163
+05-03 14:57: Epoch: 96
+05-03 14:59: Epoch: 97
+05-03 15:02: mean absolute prediction error: 0.06627098557711686
+05-03 15:02: Epoch: 98
+05-03 15:04: Epoch: 99
+05-03 15:07: mean absolute prediction error: 0.06609484552654382
+05-03 15:07: Epoch: 100
+05-03 15:09: Epoch: 101
+05-03 15:30: mean absolute prediction error: 0.06569672230338014
+05-03 15:30: Epoch: 102
+05-03 15:33: Epoch: 103
+05-03 15:36: Epoch: 104
+05-03 15:38: Epoch: 105
+05-03 15:43: mean absolute prediction error: 0.0656356290082273
+05-03 15:43: Epoch: 106
+05-03 15:45: mean absolute prediction error: 0.06553953928896492
+05-03 15:45: Epoch: 107
+05-03 15:48: mean absolute prediction error: 0.06547215453059507
+05-03 15:48: Epoch: 108
+05-03 15:51: mean absolute prediction error: 0.06537590161618932
+05-03 15:51: Epoch: 109
+05-03 15:53: mean absolute prediction error: 0.06529561612822757
+05-03 15:53: Epoch: 110
+05-03 15:56: mean absolute prediction error: 0.06525440431617799
+05-03 15:56: Epoch: 111
+05-03 15:58: mean absolute prediction error: 0.0650189192123929
+05-03 15:58: Epoch: 112
+05-03 16:01: mean absolute prediction error: 0.06501631821369817
+05-03 16:01: Epoch: 113
+05-03 16:04: Epoch: 114
+05-03 16:07: mean absolute prediction error: 0.06454138760862431
+05-03 16:07: Epoch: 115
+05-03 16:09: Epoch: 116
+05-03 16:12: Epoch: 117
+05-03 16:15: Epoch: 118
+05-03 16:17: mean absolute prediction error: 0.06453038225819646
+05-03 16:17: Epoch: 119
+05-03 16:20: Epoch: 120
+05-03 16:22: mean absolute prediction error: 0.06433885711621536
+05-03 16:23: Epoch: 121
+05-03 16:28: Epoch: 122
+05-03 16:31: mean absolute prediction error: 0.06425980387542207
+05-03 16:31: Epoch: 123
+05-03 16:34: Epoch: 124
+05-03 16:36: Epoch: 125
+05-03 16:39: mean absolute prediction error: 0.06401250312739784
+05-03 16:39: Epoch: 126
+05-03 16:41: Epoch: 127
+05-03 16:44: Epoch: 128
+05-03 16:46: Epoch: 129
+05-03 16:49: mean absolute prediction error: 0.06352760553805738
+05-03 16:49: Epoch: 130
+05-03 16:51: Epoch: 131
+05-03 16:54: Epoch: 132
+05-03 16:57: Epoch: 133
+05-03 16:59: Epoch: 134
+05-03 17:01: mean absolute prediction error: 0.06314404398451384
+05-03 17:01: Epoch: 135
+05-03 17:04: Epoch: 136
+05-03 17:09: Epoch: 137
+05-03 17:12: Epoch: 138
+05-03 17:14: Epoch: 139
+05-03 17:17: Epoch: 140
+05-03 17:19: Epoch: 141
+05-03 17:22: mean absolute prediction error: 0.06313449320129905
+05-03 17:22: Epoch: 142
+05-03 17:24: mean absolute prediction error: 0.06296594466058424
+05-03 17:24: Epoch: 143
+05-03 17:27: mean absolute prediction error: 0.06295297483790263
+05-03 17:27: Epoch: 144
+05-03 17:29: Epoch: 145
+05-03 17:32: mean absolute prediction error: 0.06287247418924534
+05-03 17:32: Epoch: 146
+05-03 17:34: Epoch: 147
+05-03 17:37: Epoch: 148
+05-03 17:39: mean absolute prediction error: 0.0626856811758451
+05-03 17:39: Epoch: 149
+05-03 17:42: mean absolute prediction error: 0.06261007178044277
+05-03 17:42: Epoch: 150
+05-03 17:45: Epoch: 151
+05-03 17:48: Epoch: 152
+05-03 17:50: Epoch: 153
+05-03 17:52: mean absolute prediction error: 0.06238040410629143
+05-03 17:52: Epoch: 154
+05-03 17:55: Epoch: 155
+05-03 17:57: Epoch: 156
+05-03 18:00: Epoch: 157
+05-03 18:03: mean absolute prediction error: 0.06216967165078061
+05-03 18:03: Epoch: 158
+05-03 18:05: Epoch: 159
+05-03 18:08: mean absolute prediction error: 0.06206569786174395
+05-03 18:08: Epoch: 160
+05-03 18:10: Epoch: 161
+05-03 18:13: Epoch: 162
+05-03 18:15: Epoch: 163
+05-03 18:31: Epoch: 160
+05-03 18:33: Epoch: 161
+05-03 18:36: Epoch: 162
+05-03 18:39: Epoch: 163
+05-03 18:41: mean absolute prediction error: 0.06198019528284402
+05-03 18:41: Epoch: 164
+05-03 18:43: Epoch: 165
+05-03 18:46: mean absolute prediction error: 0.06190369978777373
+05-03 18:46: Epoch: 166
+05-03 18:48: Epoch: 167
+05-03 18:51: mean absolute prediction error: 0.06179083900787371
+05-03 18:51: Epoch: 168
+05-03 18:53: Epoch: 169
+05-03 18:56: Epoch: 170
+05-03 18:58: Epoch: 171
+05-03 19:01: mean absolute prediction error: 0.06171833768373833
+05-03 19:01: Epoch: 172
+05-03 19:03: Epoch: 173
+05-03 19:06: mean absolute prediction error: 0.0615459313234632
+05-03 19:06: Epoch: 174
+05-03 19:08: Epoch: 175
+05-03 19:11: mean absolute prediction error: 0.06153211860426002
+05-03 19:11: Epoch: 176
+05-03 19:13: Epoch: 177
+05-03 19:16: Epoch: 178
+05-03 19:18: Epoch: 179
+05-03 19:21: mean absolute prediction error: 0.06147492831525575
+05-03 19:21: Epoch: 180
+05-03 19:23: Epoch: 181
+05-03 19:25: Epoch: 182
+05-03 19:28: mean absolute prediction error: 0.06126890050235732
+05-03 19:28: Epoch: 183
+05-03 19:31: Epoch: 184
+05-03 19:33: mean absolute prediction error: 0.06114798728569722
+05-03 19:33: Epoch: 185
+05-03 19:36: Epoch: 186
+05-03 19:38: Epoch: 187
+05-03 19:41: Epoch: 188
+05-03 19:43: Epoch: 189
+05-03 19:45: mean absolute prediction error: 0.060927139168614655
+05-03 19:45: Epoch: 190
+05-03 19:48: Epoch: 191
+05-03 19:50: mean absolute prediction error: 0.06090275908244996
+05-03 19:50: Epoch: 192
+05-03 19:53: Epoch: 193
+05-03 19:55: mean absolute prediction error: 0.06080455518956944
+05-03 19:55: Epoch: 194

@@ -77,15 +77,17 @@ def timeSeriesCompare(original, predicted, start, samplesToPlot, channel = 0, pl
 def saveModel(model, optimizer, epoch, loss, meanAbsoluteError):
     directoryPath = '/blue/gkalamangalam/jmark.ettinger/eegCompress/models/'
     saveName = 'savedModel_' + str(datetime.datetime.now().astimezone(timeZone).strftime('%m-%d %H:%M')) + '_' + f"{meanAbsoluteError:.3f}" + '.pt'
+    modelPath = directoryPath + saveName
     torch.save({'epoch': epoch,
                 'model_state_dict': model.state_dict(),
                 'optimizer_state_dict': optimizer.state_dict(),
-                'loss': loss}, directoryPath + saveName)
+                'loss': loss}, modelPath)
     # save structure information
-    structureFileName = directoryPath + 'structure_' + str(datetime.datetime.now().astimezone(timeZone).strftime('%m-%d %H:%M')) + '.txt'
-    with open(structureFileName, "w") as text_file:
+    structurePath = directoryPath + 'structure_' + str(datetime.datetime.now().astimezone(timeZone).strftime('%m-%d %H:%M')) + '.txt'
+    with open(structurePath, "w") as text_file:
         print("Network structure: {}".format(str(model)), file=text_file)
     print("Model has been saved: " + saveName)
+    return modelPath, structurePath
 
 def loadModel(path, model, optimizer, trainBool = True):
     checkpoint = torch.load(path, weights_only=True)

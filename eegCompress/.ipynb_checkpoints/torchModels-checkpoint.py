@@ -101,13 +101,17 @@ class conv1d(torch.nn.Module):
         self.conv1 = torch.nn.Conv1d(in_channels=nChannel, out_channels=50, kernel_size=3)
         self.conv2 = torch.nn.Conv1d(in_channels=50, out_channels=100, kernel_size=3)
         self.conv3 = torch.nn.Conv1d(in_channels=100, out_channels=100, kernel_size=3)
-        self.conv4 = torch.nn.Conv1d(in_channels=100, out_channels=50, kernel_size=3)
-        self.linear4 = torch.nn.Linear(600,nChannel)
+        self.conv4 = torch.nn.Conv1d(in_channels=100, out_channels=100, kernel_size=3)
+        self.conv5 = torch.nn.Conv1d(in_channels=100, out_channels=100, kernel_size=3)
+        self.conv6 = torch.nn.Conv1d(in_channels=100, out_channels=50, kernel_size=3)
+        self.linear4 = torch.nn.Linear(400,nChannel)
         
         torch.nn.init.xavier_uniform_(self.conv1.weight)
         torch.nn.init.xavier_uniform_(self.conv2.weight)
         torch.nn.init.xavier_uniform_(self.conv3.weight)
         torch.nn.init.xavier_uniform_(self.conv4.weight)
+        torch.nn.init.xavier_uniform_(self.conv5.weight)
+        torch.nn.init.xavier_uniform_(self.conv6.weight)
         torch.nn.init.xavier_uniform_(self.linear4.weight)
         
     def forward(self, input):
@@ -115,6 +119,8 @@ class conv1d(torch.nn.Module):
         x = F.leaky_relu(self.conv2(x))
         x = F.leaky_relu(self.conv3(x))
         x = F.leaky_relu(self.conv4(x))
+        x = F.leaky_relu(self.conv5(x))
+        x = F.leaky_relu(self.conv6(x))
         x = torch.flatten(x,1)
         x = self.linear4(x)
         return x
@@ -184,7 +190,7 @@ class conv1dKmeans(torch.nn.Module):
                           torch.nn.Conv1d(in_channels=50, out_channels=50, kernel_size=3),
                           torch.nn.LeakyReLU(),
                           torch.nn.Flatten(),
-                          torch.nn.Linear(700,self.nChannel)]
+                          torch.nn.Linear(600,self.nChannel)]
         for thisLayer in [0,2,4,7]:
             torch.nn.init.xavier_uniform_(self.layerList[thisLayer].weight)
         

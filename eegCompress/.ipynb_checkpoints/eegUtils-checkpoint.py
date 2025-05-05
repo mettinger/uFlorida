@@ -74,8 +74,7 @@ def timeSeriesCompare(original, predicted, start, samplesToPlot, channel = 0, pl
 
     return fig
     
-def saveModel(model, optimizer, epoch, loss, meanAbsoluteError):
-    directoryPath = '/blue/gkalamangalam/jmark.ettinger/eegCompress/models/'
+def saveModel(model, optimizer, epoch, loss, meanAbsoluteError, directoryPath):
     saveName = 'savedModel_' + str(datetime.datetime.now().astimezone(timeZone).strftime('%m-%d %H:%M')) + '_' + f"{meanAbsoluteError:.3f}" + '.pt'
     modelPath = directoryPath + saveName
     torch.save({'epoch': epoch,
@@ -123,7 +122,7 @@ def samplerMake(model, numSampleInput, data):
     predicted = predictEEG(model, None, data)
     residual = np.abs(data - predicted)
     residualMeasure = np.mean(residual, axis=0)[numSampleInput:]
-    sampler = torch.utils.data.WeightedRandomSampler(weights=residualMeasure, num_samples=nSample)
+    sampler = torch.utils.data.WeightedRandomSampler(weights=residualMeasure, num_samples=nSample, replacement=False)
     return sampler, predicted, residualMeasure
 
 def modelSize(model):

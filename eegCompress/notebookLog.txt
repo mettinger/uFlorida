@@ -1,11 +1,5 @@
-05-05 08:35: Initializing kmeans model...
-05-05 08:36: Initializing kmeans model...
-05-05 08:37: Initializing kmeans model...
-05-05 08:37: 123
-05-05 08:37: (256, 19)
-05-05 08:37: 58178.01884480992
-05-05 10:47: Initializing kmeans model...
-05-05 10:49: 131
-05-05 10:49: (256, 19)
-05-05 10:49: 58168.01027912988
-05-05 13:07: Initializing kmeans model...
+05-10 12:18: Epoch: 0
+05-10 12:18: Epoch: 0
+05-10 12:19: Epoch: 0
+05-10 12:20: Epoch: 0
+05-10 12:21: Epoch: 0

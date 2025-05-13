@@ -3,10 +3,16 @@ from torch.utils.data.dataset import Dataset
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
+import eegUtils
 
 def makeModel(modelType, initDict):
     
     if modelType == 'fullyConnected':
+        nChannel = initDict['nChannel']
+        numSampleInput = initDict['numSampleInput']
+        numSampleOutput = initDict['numSampleOutput']
+        dataTensor = initDict['dataTensor']
+        
         inSize = nChannel * numSampleInput
         outSize = nChannel * numSampleOutput
         hiddenLayerSizeList = [300, 300, 300, 300, 300]
@@ -67,7 +73,7 @@ class fullyConnected(torch.nn.Module):
         self.typeCode = 0
         self.nChannel = nChannel
         self.numSampleInput = numSampleInput
-        self.layerList = sizeToLayerList(layerSizeList)
+        self.layerList = eegUtils.sizeToLayerList(layerSizeList)
         self.myNet = torch.nn.Sequential(*self.layerList)
     
     def forward(self, x):

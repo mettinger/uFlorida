@@ -1,0 +1,62 @@
+05-10 12:18: Epoch: 0
+05-10 12:18: Epoch: 0
+05-10 12:19: Epoch: 0
+05-10 12:20: Epoch: 0
+05-10 12:21: Epoch: 0
+05-10 13:27: Epoch: 0
+05-10 13:29: mean absolute prediction error: 0.15402142522915405
+05-10 13:29: Epoch: 1
+05-10 13:32: mean absolute prediction error: 0.12791351141428797
+05-10 13:32: Epoch: 2
+05-10 13:34: mean absolute prediction error: 0.11323704003722641
+05-10 13:34: Epoch: 3
+05-10 13:36: mean absolute prediction error: 0.10408042270768889
+05-10 13:36: Epoch: 4
+05-10 13:39: mean absolute prediction error: 0.09816567865090522
+05-10 13:39: Epoch: 5
+05-10 13:41: mean absolute prediction error: 0.0936581731050893
+05-10 13:41: Epoch: 6
+05-10 13:43: mean absolute prediction error: 0.0905866271267365
+05-10 13:43: Epoch: 7
+05-10 13:46: mean absolute prediction error: 0.08742756525097695
+05-10 13:46: Epoch: 8
+05-10 13:48: mean absolute prediction error: 0.08531755751289784
+05-10 13:48: Epoch: 9
+05-10 13:50: mean absolute prediction error: 0.08387841540665453
+05-10 13:50: Epoch: 10
+05-10 13:53: mean absolute prediction error: 0.08168810391486936
+05-10 13:53: Epoch: 11
+05-10 13:55: mean absolute prediction error: 0.0807488632720207
+05-10 13:55: Epoch: 12
+05-10 13:57: mean absolute prediction error: 0.07940020309014721
+05-10 13:57: Epoch: 13
+05-10 14:00: mean absolute prediction error: 0.0780684794911863
+05-10 14:00: Epoch: 14
+05-10 14:02: mean absolute prediction error: 0.07710538070184957
+05-10 14:02: Epoch: 15
+05-10 14:04: mean absolute prediction error: 0.0767420460787396
+05-10 14:04: Epoch: 16
+05-10 14:07: mean absolute prediction error: 0.0756122563727079
+05-10 14:07: Epoch: 17
+05-10 14:09: mean absolute prediction error: 0.07493928837014457
+05-10 14:09: Epoch: 18
+05-10 14:12: mean absolute prediction error: 0.07424213636191644
+05-10 14:12: Epoch: 19
+05-10 14:14: mean absolute prediction error: 0.07364960777509508
+05-10 14:14: Epoch: 20
+05-10 14:17: mean absolute prediction error: 0.07310351859702902
+05-10 14:17: Epoch: 21
+05-10 14:19: mean absolute prediction error: 0.07264405595119909
+05-10 14:19: Epoch: 22
+05-10 14:21: mean absolute prediction error: 0.0721163951432704
+05-10 14:21: Epoch: 23
+05-10 14:24: mean absolute prediction error: 0.07164259272069005
+05-10 14:24: Epoch: 24
+05-10 14:26: mean absolute prediction error: 0.07110567712063416
+05-10 14:26: Epoch: 25
+05-10 14:28: mean absolute prediction error: 0.07091815079903598
+05-10 14:28: Epoch: 26
+05-10 14:31: mean absolute prediction error: 0.07050923493180168
+05-10 14:31: Epoch: 27
+05-10 14:33: mean absolute prediction error: 0.06998590231667783
+05-10 14:33: Epoch: 28

@@ -121,8 +121,8 @@ def samplerMake(model, numSampleInput, data):
     nChannel, nSample = data.shape
     predicted = predictEEG(model, None, data)
     residual = np.abs(data - predicted)
-    residualMeasure = np.mean(residual, axis=0)[numSampleInput:]
-    sampler = torch.utils.data.WeightedRandomSampler(weights=residualMeasure, num_samples=nSample, replacement=False)
+    residualMeasure = (np.max(residual, axis=0)[numSampleInput:]) ** 2
+    sampler = torch.utils.data.WeightedRandomSampler(weights=residualMeasure, num_samples=nSample, replacement=True)
     return sampler, predicted, residualMeasure
 
 def modelSize(model):
